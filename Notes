@@ -2,4 +2,6 @@ March 20
 
 I have downlaoded the raspberrypi/linux repo on my computer to look at the linux kernel that runs on the raspi so that I can understand the kernel better.
 
+March 22
 
+Now I am working on the encoding part of the project. After looking at various schemes I am gong to continue with a 3 bit encoding, two encoding bits with a check bit. It can only detect and not correct errors, so then the bit will have to be resent. Some troubles I have ran into is that integers in c are encoded in bytes, and I cannot go from char -> int becuase it does not compress the data as much as id like.  
