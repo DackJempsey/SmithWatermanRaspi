@@ -4,4 +4,27 @@ I have downlaoded the raspberrypi/linux repo on my computer to look at the linux
 
 March 22
 
-Now I am working on the encoding part of the project. After looking at various schemes I am gong to continue with a 3 bit encoding, two encoding bits with a check bit. It can only detect and not correct errors, so then the bit will have to be resent. Some troubles I have ran into is that integers in c are encoded in bytes, and I cannot go from char -> int becuase it does not compress the data as much as id like.  
+Now I am working on the encoding part of the project.
+After looking at various schemes I am gong to continue with a 3 bit encoding, two encoding bits with a check bit. 
+It can only detect and not correct errors, so then the bit will have to be resent.
+Some troubles I have ran into is that integers in c are encoded in bytes, and I cannot go from char -> int becuase it does not compress the data as much as id like. 
+
+I am also using geany as a code editor.
+
+After thinking about it for a little bit (haha) I think that I would like to use a 4 bit encoding scheme.
+Then I could store two nucleotides as a byte.
+Use repetition as a check, not fancy but simple. Also can translate to hex easily
+
+a= 0000 = 0
+t= 0101 = 5
+c= 1010 = A
+g= 1111 = F
+
+ 
+On second thinking, I will go back to the 2 bit encoding scheme.
+Then 4 characters will be translated to one character. 
+Then send character at a time to the cpu to align, then send to memory to add to bigger matirx.
+
+
+
+ 
