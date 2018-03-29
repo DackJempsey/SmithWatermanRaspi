@@ -29,13 +29,52 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main(int argc, char **argv)
+void input(char *file)//takes in the file 
 {
-	//first line of string should be ">sequence A - some descriptors then: /n the next line is the string"
+		//first line of string should be ">sequence A - some descriptors then: /n the next line is the string"
 	
-	char Nucleotide = *argv;
+	//char *file = argv[1]; //if you wanna take the file as an arguement
+	FILE *fasta;
+	//put filename where test is 
+	fasta  = fopen("test", "r");
 	
+	if(fasta == 0)
+	{
+		printf("Did not read");
+	}
+	else
+	{	
+		//do parsing here
+		char shit[100];
+		while (fscanf (fasta, "%s", shit) != EOF)
+		{
+			// do stuff
+			printf("%s",shit);
+			
+		}
+	}
 	
+
+	
+	fclose(fasta);
+}
+
+
+int main(int argc, char **argv)
+{	
+	input(*argv);
+
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
 
