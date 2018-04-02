@@ -29,13 +29,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-void input(char *file)//takes in the file 
+FILE input(char *file)//takes in the file reads it, encodes it. outputs a file.
 {
-		//first line of string should be ">sequence A - some descriptors then: /n the next line is the string"
 	
+	FILE out; //output
+	out = fopen("FUck", "wb");
+	
+	//first line of string should be ">sequence A - some descriptors then: /n the next line is the string"
+	//create a file to put the encoding. make a new function
 	//char *file = argv[1]; //if you wanna take the file as an arguement
-	FILE *fasta;
-	//put filename where test is 
+	
+	
+	//put filename where test is, this is to directly load, then no need for argument.
 	fasta  = fopen("test", "r");
 	
 	if(fasta == 0)
@@ -45,11 +50,14 @@ void input(char *file)//takes in the file
 	else
 	{	
 		//do parsing here
-		char shit[100];
-		while (fscanf (fasta, "%s", shit) != EOF)
+		//first take the line ">stuf" and throw it away
+		
+		//char shit[100]; //this is the size file that will store some data, possibly do a mallo with stringlen 
+		while (fscanf (fasta, "%s", out) != EOF)
 		{
 			// do stuff
-			printf("%s",shit);
+			//printf("%s",shit);
+			//ASII to binary file. then change to make it efficient.
 			
 		}
 	}
@@ -57,12 +65,15 @@ void input(char *file)//takes in the file
 
 	
 	fclose(fasta);
+	fclose(out);
+	
+	return out;
 }
 
 
 int main(int argc, char **argv)
 {	
-	input(*argv);
+		input(*argv);
 
 	return 0;
 }
