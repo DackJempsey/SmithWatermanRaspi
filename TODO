@@ -3,13 +3,13 @@ This is a list of todo Items. Updated Weekly.
 Project proposal:
 Find Data to use as a test
 
-Start on a way to encode the data.
-
-Look at some processes on the RPi that do not need to be running(wifi,bluetooth etc.)
-
 Review computer systems book of speeding up code.
 
-Create the sudo-code for pre/post data encoding
+writing binary files
 
-Decide a scoring scheme for the algo-talk to prof.
+finish encoding code
+
+test encoding code
+
+
 

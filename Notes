@@ -23,8 +23,12 @@ g= 1111 = F
  
 On second thinking, I will go back to the 2 bit encoding scheme.
 Then 4 characters will be translated to one character. 
-Then send character at a time to the cpu to align, then send to memory to add to bigger matirx.
+Then send character at a time to the cpu to align, then send to memory to add to bigger matirix.
 
+a= 00 
+t= 01 
+c= 10 
+g= 11 
 
 
  
