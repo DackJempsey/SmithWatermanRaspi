@@ -57,34 +57,42 @@ FILE * input(char *file)//takes in the file reads it, encodes it. outputs a file
 	else
 	{	
 		//do parsing here
-		//first take the line ">stuf" and throw it away
+		//first take the line ">stuff" and throw it away
 		
 		//char shit[100]; //this is the size file that will store some data, possibly do a mallo with stringlen 
+		int index =0;
 		while (fscanf (fasta, "%s", outArr) != EOF)
 		{
 			// do stuff
 			//printf("%s",shit);
 			//ASII to binary file. then change to make it efficient.
-			char nuc;
-			fgets(nuc,1,fasta); //nucluetide from the line
-			switch(nuc) // convert nucluotide and store in out
+			//char nuc;
+			fgets(outArr,1,fasta); //nucluetide from the line
+			switch(outArr[index]) // convert nucluotide and store in out
 			{
+				//printf("%d", index); // print check
+				
 				case 'A':
 					//convert to 00
+					fwrite(00, 1/4, 1, out);
 					break;
 				case 'T':
 					//convert to 01
+					fwrite(01, 1/4, 1, out);
 					break;
 				case 'C':
 					//convert to 10
+					fwrite(10, 1/4, 1, out);
 					break;
 				case 'G':
 					//convert to 11
+					fwrite(11, 1/4, 1, out);
 					break;
 				default :
 					printf("%s", "Invalid character");
-				
+			
 			}
+			index+=1;
 			
 		}
 	}
