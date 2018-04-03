@@ -45,3 +45,9 @@ TA=3	TG=7	TC=B	TT=F
 
 With this encoding scheme we are able to have 4 different options for alignment:
 single indel, double indel, match, switch.
+
+Right now I am using 15 switch cases for encoding. Looking for a better way to do this.
+
+Now I need to make get rid of the first line in the FASTA file, also make sure that all the nucleotides are in the same case(UPPER)
+
+
