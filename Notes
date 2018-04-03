@@ -25,10 +25,23 @@ On second thinking, I will go back to the 2 bit encoding scheme.
 Then 4 characters will be translated to one character. 
 Then send character at a time to the cpu to align, then send to memory to add to bigger matirix.
 
+----4/2
+
 a= 00 
 t= 01 
 c= 10 
 g= 11 
 
+Need to read up on fwrite with binary files. I would like to make sure that I can get the most out of my compresion.
+Right now I believe id be writing a binary file of integers, but need to be better than that.
 
- 
+---4/3
+When encoding the nucleotides to binary, we would go as to represent them as hex. A pair of nucleotides could be represented by one hex. Below is the table. Note that they are in order of hex, and that means they are grouped by the second letter in the pair. 
+
+AA=0	AG=4	AC=8	AT=C
+GA=1	GG=5	GC=9	GT=D
+CA=2	CG=6	CC=A	CT=E
+TA=3	TG=7	TC=B	TT=F
+
+With this encoding scheme we are able to have 4 different options for alignment:
+single indel, double indel, match, switch.
