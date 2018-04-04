@@ -29,7 +29,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+/*
 FILE *prePrep(char *file)//this gets ride of the line deliniators and makes it all uppercase
 {	//first line of string should be ">sequence A - some descriptors then: /n the next line is the string"
 	
@@ -37,12 +37,21 @@ FILE *prePrep(char *file)//this gets ride of the line deliniators and makes it a
 	FILE *out; //output file
 	out = fopen("prePrep.bin" , "wb");
 	FILE *in;
-	in = fopen(file, "r");
+	//in = fopen(file, "r"); this should be final 
+	in = fopen("test","r");
 	
-	char Arr[100];
+	char Arr[13];
 	
+	int i=0;
+	
+	while (i<9) //fgets( &Arr[i],1,in))
+		{	
+			fgets(&Arr[i] , 1 , in);
+			fwrite(&Arr[i], 1, 1, out);
+			i++;
+		}
 	 
-	getline(Arr, 1, in);
+	//printf("%s \n", fgets(&Arr[0], 1, in));
 	
 	
 	fclose(out);
@@ -51,14 +60,14 @@ FILE *prePrep(char *file)//this gets ride of the line deliniators and makes it a
 	
 	return out;
 }
-
+*/
 
 FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file.
 {
 	
 	FILE *out; //output
 	out = fopen("Encoded.bin", "wb");
-	char outArr[12];//to use in the while loop.
+	char outArr[100];//to use in the while loop.-> make dynamic
 
 	//create a file to put the encoding. make a new function
 	
@@ -86,11 +95,11 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 	encode[15] = 'F';
 		
 	
-	//put filename where test is, this is to directly load, then no need for argument.
-	//FILE *fasta;
-	//fasta  = fopen( file, "r");
+	//put file where test is, then comment this out. used only for testing
+	FILE *test;
+	test  = fopen("test", "r");
 	
-	if(file == 0)
+	if(test == 0)
 	{
 		printf("Did not read");
 		exit(1);
@@ -103,17 +112,14 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 	else
 	{	
 		printf("Good Read file!\n");
-		//do parsing here
-		//first take the line ">stuff" and throw it away
-		
-		//char shit[100]; //this is the size file that will store some data, possibly do a mallo with stringlen 
+		//do encoding here
+		 
 		int index =0;
-		while (index<9)//fscanf (fasta, "%s", outArr) != EOF)
+		while (fscanf(test, "%s", &outArr[index]) != EOF)
 		{
 			// do stuff
-			//printf("%s",shit);
 			//ASII to binary file. then change to make it efficient.
-			//char nuc;
+
 			fgets(&outArr[index],3,file); //nucluetide from the line
 
 			switch(outArr[index]) // convert nucluotide and store in out
@@ -211,7 +217,6 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 			
 		}
 	}
-	
 
 	
 	//fclose(fasta);
@@ -223,7 +228,9 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 
 int main(int argc, char **argv)
 {	
-		input(prePrep(*argv));
+		//input(prePrep(*argv));
+		FILE *test;
+		input(test);
 
 	return 0;
 }
