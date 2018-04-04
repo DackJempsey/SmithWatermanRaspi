@@ -69,9 +69,8 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 	out = fopen("Encoded.bin", "wb");
 	char outArr[100];//to use in the while loop.-> make dynamic
 
-	//create a file to put the encoding. make a new function
+	//create a file to put the encoding.
 	
-	//char *file = argv[1]; //if you wanna take the file as an arguement
 	
 	char encode[16];
 	//initializing array for encoding
@@ -115,12 +114,14 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 		//do encoding here
 		 
 		int index =0;
-		while (fscanf(test, "%s", &outArr[index]) != EOF)
-		{
-			// do stuff
-			//ASII to binary file. then change to make it efficient.
 
-			fgets(&outArr[index],3,file); //nucluetide from the line
+		while (index<9)//fscanf(test, "%s", &outArr[index]) != EOF||index<99)
+		{
+			//printf("test\n");
+			
+			//ASII -> binary file -> hex. then change to make it efficient.
+
+			fgets(&outArr[index],3,test); //nucluetide from the line. 
 
 			switch(outArr[index]) // convert nucluotide and store in out
 			{
@@ -229,7 +230,7 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 int main(int argc, char **argv)
 {	
 		//input(prePrep(*argv));
-		FILE *test;
+		FILE *test = NULL;
 		input(test);
 
 	return 0;
