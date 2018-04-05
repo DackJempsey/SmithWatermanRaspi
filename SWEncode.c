@@ -22,7 +22,7 @@
  * This is the encoding code/scheme used for this project. 
  * This is to prepare the data so that the Rpi does not have to work as hard/
  * 
- * 
+ *  
  */
 
 
@@ -115,7 +115,7 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 		 
 		int index =0;
 
-		while (index<9)//fscanf(test, "%s", &outArr[index]) != EOF||index<99)
+		while(index<99)// || fscanf(test, "%s", &outArr[index]) != EOF)
 		{
 			//printf("test\n");
 			
@@ -127,8 +127,9 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 			{
 				
 				case 'A':
+					printf("good\n");
 					switch(outArr[index+1]){
-				
+						//printf("good/n");
 						case 'A'://case aa
 							fwrite(&encode[0], 1, 1, out);
 							break;

@@ -50,4 +50,37 @@ Right now I am using 15 switch cases for encoding. Looking for a better way to d
 
 Now I need to make get rid of the first line in the FASTA file, also make sure that all the nucleotides are in the same case(UPPER)
 
+----
+
+4/4
+Things to talk to professor about:
+
+	Is the attack of encoding the right way to do it.
+	Scoring Shema/scoring matrix
+	using fwrite to write a binary file, don't wanna use int or hex(ASCII) 
+	look at example FASTA files, right now i'm using a test file made by me.2
+
+
+Notes from Prof:
+
+	look at EmBoss for a comparison of speed
+	Do the two schemes get the same score?
+	Can it get the best alignment? (compaired to emboss)
+	Speed comparisons
+	Is paralleled version faster than single CPU?
+
+	Use packing of bits to get the best compression
+	look at ASCII character, or look at memory usage
+
+Questions for me to ponder:
+	What code will be on the raspi?
+	how to run the code on raspi?
+
+	need to do lower level stuff than I am already doing
+
+
+
+
+
+
 
