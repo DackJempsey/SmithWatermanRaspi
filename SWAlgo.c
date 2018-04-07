@@ -26,10 +26,33 @@
 
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides and returns alignment of the two
+	//this is the actual algorithm func here
+	FILE *ret;
+	
+	return ret;
+	
+}
+
+int retScore(FILE *alginment){//takes in best alignment and returns a score
+	int score=0;
+	
+	
+	
+
+	return score;
+}
 
 int main(int argc, char **argv)
 {
-	
+	printf("Do you want score or alignment");
+	scanf('%s', char input)
+	if(input = "score"){
+		retScore(alignment(SHIT)):
+	}
 	return 0;
 }
 

@@ -62,41 +62,28 @@ FILE *prePrep(char *file)//this gets ride of the line deliniators and makes it a
 }
 */
 
+char pack(int i,char nuc1,char nuc2){//takes index i 1->4 and packs the nucleoditdes into one
+	//bit shift right nuc 2 over by the index, OR the nucs, return that.
+	i=i*2;
+	nuc2 = nuc2 >> i;
+	nuc1 = nuc1 ^ nuc2;
+	return nuc1;
+}
+
 FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file.
 {
 	
 	FILE *out; //output
 	out = fopen("Encoded.bin", "wb");
 	char outArr[100];//to use in the while loop.-> make dynamic
-
+	char wArr[4];
+	
 	//create a file to put the encoding.
 	
 	
-	char encode[16];
-	//initializing array for encoding
-	encode[0] = '0';
-	encode[1] = '1';
-	encode[2] = '2';
-	encode[3] = '3';	
-	
-	encode[4] = '4';
-	encode[5] = '5';
-	encode[6] = '6';
-	encode[7] = '7';
-	encode[8] = '8';
-	encode[9] = '9';
-		
-	encode[10] = 'A';
-	encode[11] = 'B';
-	encode[12] = 'C';
-	encode[13] = 'D';
-	encode[14] = 'E';
-	encode[15] = 'F';
-		
-	
 	//put file where test is, then comment this out. used only for testing
 	FILE *test;
-	test  = fopen("test", "r");
+	test  = fopen("test3", "r");
 	
 	if(test == 0)
 	{
@@ -114,108 +101,83 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 		//do encoding here
 		 
 		int index =0;
-
-		while(index<99)// || fscanf(test, "%s", &outArr[index]) != EOF)
+		int index2=1;
+		char outC;
+		rewind(test);
+		while( index<99 || fscanf(test, "%s", &outArr[index]) != EOF)
 		{
 			//printf("test\n");
 			
 			//ASII -> binary file -> hex. then change to make it efficient.
 
-			fgets(&outArr[index],3,test); //nucluetide from the line. 
+			fgets(&outArr[index],2,test); //nucluetide from the line. 
 
 			switch(outArr[index]) // convert nucluotide and store in out
 			{
 				
 				case 'A':
-					printf("good\n");
-					switch(outArr[index+1]){
-						//printf("good/n");
-						case 'A'://case aa
-							fwrite(&encode[0], 1, 1, out);
-							break;
-						case 'G'://case ag
-							fwrite(&encode[4], 1, 1, out);
-							break;
-						case 'C': //case ac
-							fwrite(&encode[8], 1, 1, out);
-							break;
-						case 'T': //case at
-							fwrite(&encode[12], 1, 1, out);
-							break;
-						default :
-							printf("%s", "Invalid character 1 ");
+					if(index2>1)
+					{
+						outC = pack(index2,outC, 0x00 );
+					}
+					else
+					{
+						outC = 0x00;
 					}
 					break;
 					
 					
 				case 'G':
 
-					switch(outArr[index+1]){
-				
-						case 'A'://case ga
-							fwrite(&encode[1], 1, 1, out);
-							break;
-						case 'G'://case gg
-							fwrite(&encode[5], 1, 1, out);
-							break;
-						case 'C': //case gc
-							fwrite(&encode[9], 1, 1, out);
-							break;
-						case 'T': //case gt
-							fwrite(&encode[13], 1, 1, out);
-							break;
-						default :
-							printf("%s", "Invalid character 2 ");
+					if(index2>1)
+					{
+						outC = pack(index2,outC, 0x10 );
+					}
+					else
+					{
+						outC = 0x10;
 					}
 					break;
 		
 					
 				case 'C':
-					switch(outArr[index+1]){
-				
-						case 'A'://case ca
-							fwrite(&encode[2], 1, 1, out);
-							break;
-						case 'G'://case cg
-							fwrite(&encode[6], 1, 1, out);
-							break;
-						case 'C': //case cc
-							fwrite(&encode[10], 1, 1, out);
-							break;
-						case 'T': //case ct
-							fwrite(&encode[14], 1, 1, out);
-							break;
-						default :
-							printf("%s", "Invalid character 3 ");
-					}	
+					if(index2>1)
+					{
+						outC = pack(index2,outC, 0x2 );
+					}
+					else
+					{
+						outC = 0x2;
+					}
 					break;
 					
 				case 'T':
-					switch(outArr[index+1]){
-				
-						case 'A'://case ta
-							fwrite(&encode[3], 1, 1, out);
-							break;
-						case 'G'://case tg
-							fwrite(&encode[7], 1, 1, out);
-							break;
-						case 'C': //case tc
-							fwrite(&encode[11], 1, 1, out);
-							break;
-						case 'T': //case tt
-							fwrite(&encode[16], 1, 1, out);
-							break;
-						default :
-							printf("%s", "Invalid character 4 ");
+					if(index2>1)
+					{
+						outC = pack(index2,outC, 0x3 );
 					}
-					break;				
+					else
+					{
+						outC = 0x3;
+					}				
 									
 															
 				default :
 					printf("%s", "Invalid character Final ");
 			
 			}
+			if(index2 == 4){
+				fwrite(&outC,1,1,out);
+				index2=1;
+			}
+			
+			else
+			{
+				index2+=2;
+			}
+			
 			index+=2;
+
 			
 		}
 	}
