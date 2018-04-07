@@ -77,6 +77,24 @@ Questions for me to ponder:
 	how to run the code on raspi?
 
 	need to do lower level stuff than I am already doing
+-----
+
+4/6
+
+thinking more about encoding, what I want to do now is:
+take four nucleotides at a time and convert them to one byte character.
+that is we take the first letter, convert to its two bit hex, 
+take the second character convert to its two bit hex then bitshift over 2
+then OR with the first character.
+Then store the four characters in one and write to the file.
+
+Now on to alignment: 
+
+we can take the character in hex, and check one hex at a time then OR again, and
+if the alignment is greater than 0 we have a mismatch
+Then if it is less than 15 it is within the first two nucleotides
+if it is between 16 and 128 it is within the second two nucleotides
+if it is greater than 128 then there is a misalignment within both pairs of pairs.
 
 
 
