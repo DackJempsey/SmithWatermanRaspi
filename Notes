@@ -97,6 +97,18 @@ if it is between 16 and 128 it is within the second two nucleotides
 if it is greater than 128 then there is a misalignment within both pairs of pairs.
 
 
+-----
+
+4/8
+
+
+Starting to review optimization for the algorithm. Here is info on caches size of the cpu (BCM2837)
+L1: 32KB L2: 512KB
+Make sure to have cache hits
+look at loop size and such.
+
+
+
 
 
 

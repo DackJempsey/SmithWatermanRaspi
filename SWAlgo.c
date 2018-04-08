@@ -33,6 +33,42 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides 
 	//this is the actual algorithm func here
 	FILE *ret;
 	
+	fopen
+	
+	char smallArr[4][4];//this is the array that will be used for calculations.fixed
+	//char bigArr[][];//this is the array that will be used for storing the calculations scores. make dynamic
+	
+	//initialize smalArr
+	for(int j=0;j<4;j++){
+		smallArr[0][j] = 0;
+		}
+	for(int i=0;i<4;i++){
+		smallArr[i][0] = 0;
+	}
+	
+	//Rowmajor
+	for(int i=0;i<bigArrSize;i++){
+		for(int n=0;n<bigArrSize;n++){
+		
+			//takes a few at a time here:
+			//calculations here
+			for(int j=0;j<4;j++){
+				for(int k=0;k<4;k++){
+					
+					
+					
+				}
+			}
+			
+		//transfer to larger matrix here:
+		
+		
+		
+		}
+	}
+
+	
+	
 	return ret;
 	
 }
