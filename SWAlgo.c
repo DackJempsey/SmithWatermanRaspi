@@ -29,41 +29,58 @@
 #include <stdlib.h>
 #include <string.h>
 
+struct aling{
+	public:
+		
+		char smallArr[4][4];//this is the array that will be used for calculations.fixed
+		//char bigArr[][];//this is the array that will be used for storing the calculations scores. make dynamic
+		int bigArrSize1 = 1;
+		int bigArrSize2 = 2;
+		
+};
+
 FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides and returns alignment of the two
 	//this is the actual algorithm func here
 	FILE *ret;
 	
-	fopen
+	ret = fopen("Score", "w");
 	
-	char smallArr[4][4];//this is the array that will be used for calculations.fixed
+	//char smallArr[4][4];//this is the array that will be used for calculations.fixed
 	//char bigArr[][];//this is the array that will be used for storing the calculations scores. make dynamic
+	//int bigArrSize1 = 1;
+	//int bigArrSize2 = 2;
+	
 	
 	//initialize smalArr
 	for(int j=0;j<4;j++){
-		smallArr[0][j] = 0;
+		align.smallArr[0][j] = 0;
 		}
 	for(int i=0;i<4;i++){
-		smallArr[i][0] = 0;
+		align.smallArr[i][0] = 0;
 	}
 	
 	//Rowmajor-> do rows first
-	for(int i=0;i<bigArrSize1;i++){
-		for(int n=0;n<bigArrSize2;n++){
+	for(int i=0;i<align.bigArrSize1;i++){
+		for(int n=0;n<align.bigArrSize2;n++){
 		
 			//takes a few at a time here:
 			//calculations here
 			for(int j=0;j<4;j++){
 				for(int k=0;k<4;k++){
 					//look at the three surrounding matrix entries. pick lowest. or 0.
+					//do an OR to check if zero(meaning it has alignment). if it is not then pick algnemnt score 
 					
 					
 				}
 			}
 			
 		//transfer to larger matrix here:
+		//this may be the bottleneck due to the transfer of data i.e. need to initialize smallArr for nex
+		//round so that it can use previous values.
+		
 			for(int j=0;j<4;j++){
 				for(int k=0;k<4;k++){
-					smallArrr[k][j] = bigArr[bigArrSize2][bigArrSize1];
+					align.smallArr[k][j] = align.bigArr[align.bigArrSize2][align.bigArrSize1];
 				}
 			}
 		
@@ -72,14 +89,14 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides 
 	}
 
 	
-	
+	fclose(ret);
 	return ret;
 	
 }
 
 int retScore(FILE *alginment){//takes in best alignment and returns a score
 	int score=0;
-	
+	//go through bigArr and find the best alingment 
 	
 	
 
@@ -89,8 +106,11 @@ int retScore(FILE *alginment){//takes in best alignment and returns a score
 int main(int argc, char **argv)
 {
 	printf("Do you want score or alignment");
-	scanf('%s', char input)
-	if(input = "score"){
+	char input;
+	
+	scanf('%s', input);
+	
+	if(input == "score"){
 		retScore(alignment(SHIT)):
 	}
 	return 0;

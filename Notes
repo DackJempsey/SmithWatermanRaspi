@@ -108,6 +108,12 @@ Make sure to have cache hits
 look at loop size and such.
 
 
+---
+4/9
+
+Things to talk to prof about:
+Is encoding scheme good. also talk about the null character
+Talk about alignment using the OR operator, and if it is ok to just align the 4 nucleotides in one. 
 
 
 
