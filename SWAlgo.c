@@ -46,22 +46,26 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides 
 		smallArr[i][0] = 0;
 	}
 	
-	//Rowmajor
-	for(int i=0;i<bigArrSize;i++){
-		for(int n=0;n<bigArrSize;n++){
+	//Rowmajor-> do rows first
+	for(int i=0;i<bigArrSize1;i++){
+		for(int n=0;n<bigArrSize2;n++){
 		
 			//takes a few at a time here:
 			//calculations here
 			for(int j=0;j<4;j++){
 				for(int k=0;k<4;k++){
-					
+					//look at the three surrounding matrix entries. pick lowest. or 0.
 					
 					
 				}
 			}
 			
 		//transfer to larger matrix here:
-		
+			for(int j=0;j<4;j++){
+				for(int k=0;k<4;k++){
+					smallArrr[k][j] = bigArr[bigArrSize2][bigArrSize1];
+				}
+			}
 		
 		
 		}
