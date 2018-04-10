@@ -116,8 +116,16 @@ Is encoding scheme good. also talk about the null character
 Talk about alignment using the OR operator, and if it is ok to just align the 4 nucleotides in one. 
 Using makefile and compiling on my laptop then transfer compiled code to the RPI then
 running that code on the RPI.
+----
 
+4/10
 
+Before talking to profesor I was able to solve some problems.
+When I was storing encoding as chars, I changed to unsigned ints, solves three problems:
+can have \n character for the endof the sequence. 
+Can go all the way to 0xFFFF (before 0xFF would be an unknown character)
+
+ 
 
 
 
