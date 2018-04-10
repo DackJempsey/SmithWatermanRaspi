@@ -29,38 +29,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-/*
-FILE *prePrep(char *file)//this gets ride of the line deliniators and makes it all uppercase
+
+FILE *prePrep(char *file)//This takes the file and creates new files and titles. 
+    //also takes all cases and converts to uppercase.
 {	//first line of string should be ">sequence A - some descriptors then: /n the next line is the string"
+	FILE *readfile;
+	FILE *writefile;
+	char line [128];  //make dynamic
+	char fileoutputname[15];
+	int filecounter=1, 
+	
+	readfile = fopen("test2", "r");
+	int i=0;
+	while(fscanf(readfile, "%s",line) != EOF){
+		if(i==0){rewind(readfile);i+=1;}	
+		getline(fileoutputname, 15, readfile);
+		while(fgets(line, 1, readfile) != ">"){
+			//make uppercase, put in outfile
+			if()
+		}
+	}
 	
 
-	FILE *out; //output file
-	out = fopen("prePrep.bin" , "wb");
-	FILE *in;
-	//in = fopen(file, "r"); this should be final 
-	in = fopen("test","r");
-	
-	char Arr[13];
-	
-	int i=0;
-	
-	while (i<9) //fgets( &Arr[i],1,in))
-		{	
-			fgets(&Arr[i] , 1 , in);
-			fwrite(&Arr[i], 1, 1, out);
-			i++;
-		}
-	 
-	//printf("%s \n", fgets(&Arr[0], 1, in));
-	
-	
-	fclose(out);
-	fclose(in);
-	//free(); //frees buffer made by the getline.
-	
+	fclose(readfile);
 	return out;
 }
-*/
+
 
 char pack(int i,char nuc1,char nuc2){//takes index i 1->4 and packs the nucleoditdes into one
 	//bit shift right nuc 2 over by the index, OR the nucs, return that.
@@ -82,10 +76,10 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 	
 	
 	//put file where test is, then comment this out. used only for testing
-	FILE *test;
-	test  = fopen("test3", "r");
+	FILE *test1;
+	test1  = fopen("test3", "r");
 	
-	if(test == 0)
+	if(test1 == 0)
 	{
 		printf("Did not read");
 		exit(1);
@@ -103,7 +97,7 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 		int index =0;
 		int index2=1;
 		char outC;
-		rewind(test);
+		rewind(test1);
 		while( index<99 || fscanf(test, "%s", &outArr[index]) != EOF)
 		{
 			//printf("test\n");
