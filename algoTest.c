@@ -25,18 +25,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define MAX(x, y) (((x) > (y)) ? (x) : (y))
 
+int maxScore(int ij,int ji, int i1j1){
+	int score;
+	i1j1 = i1j1 - 3;
+	ij= ij-2;
+	ji=ji-2;
+	//or 0
+	score = MAX(i1j1,MAX(ij,MAX(ji,0)));
+	
+	
+	
+	return score;
+}
 
 int main(int argc, char **argv)
 {
 	
-	char *nuc1 = argv[1];
-	char *nuc2 = argv[2]; 
+	//char *nuc1 = argv[1];
+	//char *nuc2 = argv[2]; 
 
 	FILE *stream1;
 	FILE *stream2;
 	stream1 = fopen("test3","r");
-	stream2 = fopen("test3", "r");
+	stream2 = fopen("test4", "r");
 
     int size1 =50;//= strlen(nuc1);
     int size2 = 50;//= strlen(nuc2); 
@@ -45,6 +58,17 @@ int main(int argc, char **argv)
     //arr2 = (int*) calloc(size2, sizeof(int));//arrays which store input strings
     
     int score[size1][size2];
+    
+    for(int i = 0; i < size1; ++i)
+    {
+		score[i][0] = 0;
+	}
+	for(int i=0;i<size2;i++)
+	{
+		score[0][i]=0;
+	}
+    
+   
     char read[2];
    /* 
     if(arr1 == NULL || arr2==NULL)
@@ -53,21 +77,23 @@ int main(int argc, char **argv)
         exit(0);
     }
     */
-    for(int i = 0; i < size1; ++i)
+    for(int i = 1; i < size1; ++i)
     {
-		for(int j=0;j<size2;j++)
+		for(int j=1;j<size2;j++)
 		{
-			fgets(&read[0],1,stream1);
-			fgets(&read[1],1,stream2);
+			fgets(&read[0],2,stream1);
+			fgets(&read[1],2,stream2);
 			
 			if(read[0]==read[1]){
-				score[i][j] = 0;
+
+				score[i][j] = score[i-1][j-1] + 3;
 			}
 			else{
-				score[i][j]=-1;
+				score[i][j]=maxScore(score[i-1][j],score[i][j-1],score[i-1][j-1]);
 			}
 		}
     }
+    
     for(int i = 0; i < size1; ++i)
     {
 		for(int j=0;j<size2;j++)
@@ -79,7 +105,7 @@ int main(int argc, char **argv)
     
     //free(arr1);
     //free(arr2);
-
+	//free(score);
 	
 	return 0;
 }
