@@ -2,3 +2,7 @@
 *.out
 
 SWEncode
+
+*.o
+
+*.bin
