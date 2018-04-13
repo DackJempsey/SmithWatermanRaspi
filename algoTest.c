@@ -34,6 +34,7 @@ struct ret{
 	
 };
 
+
 struct ret maxScore(int ij,int ji, int i1j1){
 	
 	struct ret out;
@@ -54,12 +55,37 @@ struct ret maxScore(int ij,int ji, int i1j1){
 	return out;
 }
 
+
+void t(int i){
+	switch(i){
+		
+		case 1:
+			printf("test1\n");
+			break;
+		case 2:
+			printf("test2\n");
+			break;
+		case 3:
+			printf("test3\n");
+			break;
+		case 4:
+			printf("test4\n");
+			break;
+		case 5:
+			printf("test5\n");
+			break;
+		default:
+			break;
+		}
+		
+}
+
 int main(int argc, char **argv)
 {
 	//struct ret arr;
 	//char *nuc1 = argv[1];
 	//char *nuc2 = argv[2]; 
-
+	
 	FILE *stream1;
 	FILE *stream2;
 	stream1 = fopen("test5","r");
@@ -96,32 +122,39 @@ int main(int argc, char **argv)
     
     int max;
     int ipos, jpos;
-    int i=1,j=1;
+    int i=1;
+    
+
     while(fgets(&read[0],2,stream1) != NULL) //for(int i = 1; i < size1; ++i)
-    {
+    {	 
+		int j=1;
+
 		//fgets(&read[0],2,stream1);
 		 while(fgets(&read[1],2,stream2) != NULL) //for(int j=1;j<size2;j++)
-		{
+		{	
 			
-			fgets(&read[1],2,stream2);
+			//fgets(&read[1],2,stream2);
 			//need to store where the score came from. breakties.
 			if(read[0]==read[1]){
 				score[i][j] = maxScore(score[i-1][j].score,score[i][j-1].score,(score[i-1][j-1].score+3));
 			}
 			else{
+				
 				score[i][j] =maxScore(score[i-1][j].score,score[i][j-1].score,(score[i-1][j-1].score-3));
 			}
-			
 			if(max != MAX(score[i][j].score, max)){
 				max = MAX(score[i][j].score, max);//get the max score for traversing.
 				ipos=i;
 				jpos=j;//got position of max score
 			}
-			printf("%c;%c ", read[0],read[1]);
+			printf("%c;%c \n", read[0],read[1]);
 			i++;
+
 		}
+		t(1);
 		j++;
 		printf("\n");
+		rewind(stream2);
     }
     
    printf("%d %d %d \n",max,ipos,jpos);
