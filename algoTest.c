@@ -29,8 +29,8 @@
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 
 struct ret{
-		int score;
-		char from;//three options c - corner u-up l -left
+	int score;
+	char from;//three options c - corner u-up l -left
 	
 };
 
@@ -91,8 +91,16 @@ int main(int argc, char **argv)
 	stream1 = fopen("test5","r");
 	stream2 = fopen("test4", "r");
 
-    int size1 =30;//= strlen(nuc1);
-    int size2 = 30;//= strlen(nuc2); 
+	//getting size of files
+	fseek(stream1, 0L, SEEK_END);
+	int size1 = ftell(stream1);
+	rewind(stream1);
+	
+	fseek(stream2,0L, SEEK_END);
+    int size2 = ftell(stream2);
+    rewind(stream2); 
+    
+    printf("%d  %d", size1,size2);
 
     //arr1 = (int*) calloc(size1, sizeof(int));//dyamically allocated array
     //arr2 = (int*) calloc(size2, sizeof(int));//arrays which store input strings
@@ -110,7 +118,7 @@ int main(int argc, char **argv)
 		score[0][i].from  = '0';
 	}
     
-   
+
     char read[2];
    /* 
     if(arr1 == NULL || arr2==NULL)
@@ -122,19 +130,15 @@ int main(int argc, char **argv)
     
     int max;
     int ipos, jpos;
-    int i=1;
+    int j=1,i;
     
 
     while(fgets(&read[0],2,stream1) != NULL) //for(int i = 1; i < size1; ++i)
     {	 
-		int j=1;
+		i=1;
 
-		//fgets(&read[0],2,stream1);
 		 while(fgets(&read[1],2,stream2) != NULL) //for(int j=1;j<size2;j++)
 		{	
-			
-			//fgets(&read[1],2,stream2);
-			//need to store where the score came from. breakties.
 			if(read[0]==read[1]){
 				score[i][j] = maxScore(score[i-1][j].score,score[i][j-1].score,(score[i-1][j-1].score+3));
 			}
@@ -147,20 +151,18 @@ int main(int argc, char **argv)
 				ipos=i;
 				jpos=j;//got position of max score
 			}
-			printf("%c;%c \n", read[0],read[1]);
+			//printf("%c;%c;%d:%d\n", read[0],read[1],i,j);//printcheck
 			i++;
 
 		}
-		t(1);
 		j++;
-		printf("\n");
 		rewind(stream2);
     }
     
    printf("%d %d %d \n",max,ipos,jpos);
     
    int check = max;
-   char arr1[50];//,arr2[50];
+   char *arr1 = (char*)calloc(MAX(size1,size2)*2, 8);
    int k=0;
 
    while(check != 0 ){
@@ -191,7 +193,7 @@ int main(int argc, char **argv)
    
     //print checks
     
-    /*
+    
     for(int i = 0; i <size1; i++)
     {
 		for(int j=0;j<size2;j++)
@@ -204,15 +206,16 @@ int main(int argc, char **argv)
    
 
 
-   for(int i=0;i<50;i++){
+   for(int i=0;i<220 || &arr1[i] == 0;i++){
 	   printf("%c  ",arr1[i]);
    }
    printf("\n");
-   * //printf("test");
-   */
    
-    //free(arr1);
-    //free(arr2);
+   
+    free(arr1);
+	fclose(stream1);
+	fclose(stream2);
+	
 	
 	return 0;
 }
