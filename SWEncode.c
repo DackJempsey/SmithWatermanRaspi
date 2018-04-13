@@ -34,19 +34,24 @@ FILE *prePrep(char *file)//This takes the file and creates new files and titles.
     //also takes all cases and converts to uppercase.
 {	//first line of string should be ">sequence A - some descriptors then: /n the next line is the string"
 	FILE *readfile;
-	FILE *writefile;
+	FILE writefile;
 	char line [128];  //make dynamic
-	char fileoutputname[15];
+	char name[15];
 	int filecounter=1, 
 	
 	readfile = fopen("test2", "r");
+	
 	int i=0;
+	
 	while(fscanf(readfile, "%s",line) != EOF){
 		if(i==0){rewind(readfile);i+=1;}	
-		getline(fileoutputname, 15, readfile);
-		while(fgets(line, 1, readfile) != ">"){
+		
+		getline(name, 15, readfile);
+		while(fgets(line, 1, readfile) != "\n"){
 			//make uppercase, put in outfile
-			if()
+			if(readfile){
+				
+			}
 		}
 	}
 	
@@ -70,7 +75,7 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 	FILE *out; //output
 	out = fopen("Encoded.bin", "wb");
 	char outArr[100];//to use in the while loop.-> make dynamic
-	char wArr[4];
+	int wArr[8];
 	
 	//create a file to put the encoding.
 	
@@ -96,8 +101,9 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 		 
 		int index =0;
 		int index2=1;
-		char outC;
+		int outC;
 		rewind(test1);
+		
 		while( index<99 || fscanf(test, "%s", &outArr[index]) != EOF)
 		{
 			//printf("test\n");
@@ -160,7 +166,7 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 					printf("%s", "Invalid character Final ");
 			
 			}
-			if(index2 == 4){
+			if(index2 == 8){
 				fwrite(&outC,1,1,out);
 				index2=1;
 			}

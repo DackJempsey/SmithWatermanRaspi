@@ -29,40 +29,49 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct aling{
-	public:
+struct stuc{
+
+		int smallArr[8][8];//this is the array that will be used for calculations.fixed
 		
-		char smallArr[4][4];//this is the array that will be used for calculations.fixed
-		//char bigArr[][];//this is the array that will be used for storing the calculations scores. make dynamic
-		int bigArrSize1 = 1;
-		int bigArrSize2 = 2;
+		int bigArrSize1;
+		int bigArrSize2;
 		
+		int **bigArr;		
+		//char bigArr[][];
+		
+		FILE *ret;
 };
 
 FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides and returns alignment of the two
 	//this is the actual algorithm func here
-	FILE *ret;
-	
-	ret = fopen("Score", "w");
-	
-	//char smallArr[4][4];//this is the array that will be used for calculations.fixed
-	//char bigArr[][];//this is the array that will be used for storing the calculations scores. make dynamic
-	//int bigArrSize1 = 1;
-	//int bigArrSize2 = 2;
 	
 	
+	struct stuc align;
+	
+	align.bigArrSize1 = 100;
+	align.bigArrSize2 = 100;
+
+	align.bigArr = malloc((align.bigArrSize1)*sizeof(int*));
+
+	for(int i=0;i<align.bigArrSize1-1;i++){
+		align.bigArr[i]= malloc((align.bigArrSize2+1)*sizeof(int));
+		printf("%d\n", *align.bigArr[i]);
+	}
+
+	align.ret = fopen("Score", "w");
+
 	//initialize smalArr
-	for(int j=0;j<4;j++){
+	for(int j=0;j<8;j++){
 		align.smallArr[0][j] = 0;
 		}
-	for(int i=0;i<4;i++){
+	for(int i=0;i<8;i++){
 		align.smallArr[i][0] = 0;
 	}
-	
+
 	//Rowmajor-> do rows first
 	for(int i=0;i<align.bigArrSize1;i++){
 		for(int n=0;n<align.bigArrSize2;n++){
-		
+
 			//takes a few at a time here:
 			//calculations here
 			for(int j=0;j<4;j++){
@@ -73,7 +82,7 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides 
 					
 				}
 			}
-			
+			printf("test\n");
 		//transfer to larger matrix here:
 		//this may be the bottleneck due to the transfer of data i.e. need to initialize smallArr for nex
 		//round so that it can use previous values.
@@ -87,10 +96,10 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides 
 		
 		}
 	}
-
+	printf("test2\n");
 	
-	fclose(ret);
-	return ret;
+	fclose(align.ret);
+	return align.ret;
 	
 }
 
@@ -105,14 +114,17 @@ int retScore(FILE *alginment){//takes in best alignment and returns a score
 
 int main(int argc, char **argv)
 {
+	/*
 	printf("Do you want score or alignment");
 	char input;
+	* 
 	
-	scanf('%s', input);
+	scanf('%c', input);
+	*/
+	FILE *test1 = NULL;
+	FILE *test2 = NULL;
+	retScore(alignment(test1,test2));
 	
-	if(input == "score"){
-		retScore(alignment(SHIT)):
-	}
 	return 0;
 }
 
