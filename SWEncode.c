@@ -30,34 +30,47 @@
 #include <stdlib.h>
 #include <string.h>
 
+void t(int i){
+	printf("test #%d \n",i);
+}
+
 FILE *prePrep(char *file)//This takes the file and creates new files and titles. 
     //also takes all cases and converts to uppercase.
 {	//first line of string should be ">sequence A - some descriptors then: /n the next line is the string"
+	
 	FILE *readfile;
-	FILE writefile;
-	char line [128];  //make dynamic
+	FILE *writefile;
+	
 	char name[15];
-	int filecounter=1, 
 	
 	readfile = fopen("test2", "r");
+	writefile = fopen("Prep.jack","wb");
+	
+	fseek(readfile, 0L, SEEK_END);
+	int size1 = ftell(readfile);
+	rewind(readfile);
+	
+	char line[size1];
 	
 	int i=0;
 	
-	while(fscanf(readfile, "%s",line) != EOF){
-		if(i==0){rewind(readfile);i+=1;}	
-		
-		getline(name, 15, readfile);
-		while(fgets(line, 1, readfile) != "\n"){
+	if(fgets(&name[0], 50, readfile) == '>'){	
+		while(fgets(&line[i], 1, readfile) != NULL){
 			//make uppercase, put in outfile
-			if(readfile){
-				
+			if(line[i]>91)
+			{
+				line[i]=line[i]-32;
+				fwrite(&line[i],1,1,writefile);
+			}
+			else{
+				fwrite(&line[i],1,1,writefile);
 			}
 		}
 	}
 	
 
 	fclose(readfile);
-	return out;
+	return writefile;
 }
 
 
@@ -75,7 +88,7 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 	FILE *out; //output
 	out = fopen("Encoded.bin", "wb");
 	char outArr[100];//to use in the while loop.-> make dynamic
-	int wArr[8];
+	//int wArr[8];
 	
 	//create a file to put the encoding.
 	
@@ -86,12 +99,12 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 	
 	if(test1 == 0)
 	{
-		printf("Did not read");
+		printf("Did not read\n");
 		exit(1);
 	}
 	else if (!out)
 	{
-		printf("Unable to open out file");
+		printf("Unable to open out file\n");
 		exit(1);
 	}
 	else
@@ -104,13 +117,13 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 		int outC;
 		rewind(test1);
 		
-		while( index<99 || fscanf(test, "%s", &outArr[index]) != EOF)
+		while( index<99 || fscanf(test1, "%s", &outArr[index]) != EOF)
 		{
 			//printf("test\n");
 			
 			//ASII -> binary file -> hex. then change to make it efficient.
 
-			fgets(&outArr[index],2,test); //nucluetide from the line. 
+			fgets(&outArr[index],2,test1); //nucluetide from the line. 
 
 			switch(outArr[index]) // convert nucluotide and store in out
 			{
@@ -143,7 +156,7 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 				case 'C':
 					if(index2>1)
 					{
-						outC = pack(index2,outC, 0x2 );
+						outC = pack(index2,outC, 0x20 );
 					}
 					else
 					{
@@ -154,7 +167,7 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 				case 'T':
 					if(index2>1)
 					{
-						outC = pack(index2,outC, 0x3 );
+						outC = pack(index2,outC, 0x30 );
 					}
 					else
 					{
@@ -163,7 +176,7 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 									
 															
 				default :
-					printf("%s", "Invalid character Final ");
+					printf("%s", "Invalid character \n");
 			
 			}
 			if(index2 == 8){
@@ -177,7 +190,7 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 			}
 			
 			index+=2;
-
+			printf("%d\n", outC);
 			
 		}
 	}
@@ -193,8 +206,8 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 int main(int argc, char **argv)
 {	
 		//input(prePrep(*argv));
-		FILE *test = NULL;
-		input(test);
+		FILE *test1 = NULL;
+		input(test1);
 
 	return 0;
 }

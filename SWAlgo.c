@@ -42,6 +42,10 @@ struct stuc{
 		FILE *ret;
 };
 
+void t(int i){
+	printf("test #%d \n",i);
+}
+
 FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides and returns alignment of the two
 	//this is the actual algorithm func here
 	

@@ -57,7 +57,7 @@ struct ret maxScore(int ij,int ji, int i1j1){
 
 
 void t(int i){
-	printf("test #%d",i);
+	printf("test #%d \n",i);
 }
 
 int main(int argc, char **argv)
