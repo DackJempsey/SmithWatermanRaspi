@@ -44,13 +44,17 @@ struct ret maxScore(int ij,int ji, int i1j1){
 	ji=ji-2;
 	//or 0
 	
-	out.score = MAX(i1j1,MAX(ij,MAX(ji,0)));
+	out.score = MAX(ji,MAX(ij,MAX(i1j1,0)));
+	
+
+	//could be the same score, but only from one place.
 	
 	if(out.score == i1j1){ out.from = 'c';}
-	else if(out.score == ij){out.from = 'u';}
-	else if (out.score == ji){out.from = 'l';}
+	else if(out.score == ij){out.from = 'l';}
+	else if (out.score == ji){out.from = 'u';}
 	else{out.from = '0';}
 	
+	//printf("%d %d %d :: Score: %d From: %c  ",i1j1,ij,ji,out.score,out.from);
 	
 	return out;
 }
@@ -80,23 +84,28 @@ int main(int argc, char **argv)
     int size2 = ftell(stream2);
     rewind(stream2); 
     
-    printf("%d  %d", size1,size2);
 
     //arr1 = (int*) calloc(size1, sizeof(int));//dyamically allocated array
     //arr2 = (int*) calloc(size2, sizeof(int));//arrays which store input strings
     
     struct ret score[size1][size2];
     
-    for(int i = 0; i < size1; ++i)
-    {
-		score[i][0].score = 0;
-		score[i][0].from  = '0';
+    
+    for(int i = 0; i < size1; ++i)//O(n^2)
+	{
+		for(int j=0;j<size2;j++)
+		{
+			score[i][j].score = 0;
+			score[i][j].from  = '0';
+		}
 	}
+	/*
 	for(int i=0;i<size2;i++)
 	{
 		score[0][i].score=0;
 		score[0][i].from  = '0';
 	}
+	*/
     
 
     char read[2];
@@ -126,6 +135,7 @@ int main(int argc, char **argv)
 				
 				score[i][j] =maxScore(score[i-1][j].score,score[i][j-1].score,(score[i-1][j-1].score-3));
 			}
+
 			if(max != MAX(score[i][j].score, max)){
 				max = MAX(score[i][j].score, max);//get the max score for traversing.
 				ipos=i;
@@ -190,7 +200,6 @@ int main(int argc, char **argv)
 	   printf("%c  ",arr1[i]);
    }
    printf("\n");
-   
    
     free(arr1);
 	fclose(stream1);
