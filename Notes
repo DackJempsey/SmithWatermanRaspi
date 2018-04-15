@@ -125,7 +125,21 @@ When I was storing encoding as chars, I changed to unsigned ints, solves three p
 can have \n character for the endof the sequence. 
 Can go all the way to 0xFFFF (before 0xFF would be an unknown character)
 
- 
+----
+4/15
+
+I have the test algorithm done, I have downlaoded a FASTA from homework three which has around 6,000 bp.
+
+One problem that I see is that the file has \n after a few bp's. So short of editiing my prep code more, just to run the test code I may have to maually take out the \n so I can get a good benchmark for time on the RPI. ill do that now and update once the testing is done.
+
+started to take out the \n's but its too long. Ill figure out some way to have the code do it.
+
+So I have started to run the testAlgo on the RPI and the programmed gets killed everytime due to memory usage.
+I did a print check and it gets to about row 4585 when it needs to go to row 24742. So for the code to be run on the raspi it needs to be optimized. So that is the first result that we get from this lab! or we could increase memory size of the raspi but either way its a result.
+
+
+
+
 
 
 

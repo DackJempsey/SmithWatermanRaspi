@@ -65,15 +65,11 @@ void t(int i){
 }
 
 int main(int argc, char **argv)
-{
-	//struct ret arr;
-	//char *nuc1 = argv[1];
-	//char *nuc2 = argv[2]; 
-	
+{	
 	FILE *stream1;
 	FILE *stream2;
-	stream1 = fopen("test5","r");
-	stream2 = fopen("test4", "r");
+	stream1 = fopen("bigTest","r");
+	stream2 = fopen("bigTest2", "r");
 
 	//getting size of files
 	fseek(stream1, 0L, SEEK_END);
@@ -83,58 +79,51 @@ int main(int argc, char **argv)
 	fseek(stream2,0L, SEEK_END);
     int size2 = ftell(stream2);
     rewind(stream2); 
-    
 
-    //arr1 = (int*) calloc(size1, sizeof(int));//dyamically allocated array
-    //arr2 = (int*) calloc(size2, sizeof(int));//arrays which store input strings
+	printf("%d %d:: \n",size1,size2);
+
+		
+    //struct ret score[size1][size2]; // too big for the stack. need to store on RAM. double malloc. gross.
     
-    struct ret score[size1][size2];
-    
-    
+	struct ret **score = (struct ret**) calloc(size2+1, sizeof(struct ret*));
+
+	for ( int i = 0; i < size2; i++ )
+	{
+		score[i] = (struct ret*) calloc(size1+1, sizeof(struct ret));
+	}
+	/*
     for(int i = 0; i < size1; ++i)//O(n^2)
 	{
 		for(int j=0;j<size2;j++)
 		{
-			score[i][j].score = 0;
-			score[i][j].from  = '0';
+			printf("%d %c",score[i][j].score,score[i][j].from);
 		}
-	}
-	/*
-	for(int i=0;i<size2;i++)
-	{
-		score[0][i].score=0;
-		score[0][i].from  = '0';
+		printf("\n  FUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
 	}
 	*/
-    
+
 
     char read[2];
-   /* 
-    if(arr1 == NULL || arr2==NULL)
-    {
-        printf("Error! memory not allocated.");
-        exit(0);
-    }
-    */
     
     int max;
     int ipos, jpos;
-    int j=1,i;
+   // int j=1,i;
     
 
-    while(fgets(&read[0],2,stream1) != NULL) //for(int i = 1; i < size1; ++i)
-    {	 
-		i=1;
+    for(int i = 1; i < size1; ++i)//while(fgets(&read[0],2,stream1) != NULL) //
+    {	
+		//i=1;
 
-		 while(fgets(&read[1],2,stream2) != NULL) //for(int j=1;j<size2;j++)
+		 for(int j=1;j<size2;j++)//while(fgets(&read[1],2,stream2) != NULL)
 		{	
 			if(read[0]==read[1]){
 				score[i][j] = maxScore(score[i-1][j].score,score[i][j-1].score,(score[i-1][j-1].score+3));
 			}
 			else{
-				
+
 				score[i][j] =maxScore(score[i-1][j].score,score[i][j-1].score,(score[i-1][j-1].score-3));
 			}
+
 
 			if(max != MAX(score[i][j].score, max)){
 				max = MAX(score[i][j].score, max);//get the max score for traversing.
@@ -142,10 +131,12 @@ int main(int argc, char **argv)
 				jpos=j;//got position of max score
 			}
 			//printf("%c;%c;%d:%d\n", read[0],read[1],i,j);//printcheck
-			i++;
-
+			//printf("%d;%c;\n", score[i][j].score,score[i][j].from);
 		}
-		j++;
+
+
+
+		//j++;
 		rewind(stream2);
     }
     
@@ -183,7 +174,7 @@ int main(int argc, char **argv)
    
     //print checks
     
-    
+    /*
     for(int i = 0; i <size1; i++)
     {
 		for(int j=0;j<size2;j++)
@@ -193,7 +184,7 @@ int main(int argc, char **argv)
 		}
 		printf("\n");
     }
-   
+   */
 
 
    for(int i=0;i<220 || &arr1[i] == 0;i++){
@@ -201,7 +192,18 @@ int main(int argc, char **argv)
    }
    printf("\n");
    
+   
+   
+   
+   
     free(arr1);
+    
+    for ( int i = 0; i < size1; i++ )
+	{
+		free(score[i]);
+	}
+
+	free(score);
 	fclose(stream1);
 	fclose(stream2);
 	

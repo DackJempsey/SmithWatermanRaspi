@@ -44,7 +44,7 @@ FILE *prePrep(char *file)//This takes the file and creates new files and titles.
 	char name[15];
 	
 	readfile = fopen("test2", "r");
-	writefile = fopen("Prep.jack","wb");
+	writefile = fopen("Prep.jack","w");
 	
 	fseek(readfile, 0L, SEEK_END);
 	int size1 = ftell(readfile);
