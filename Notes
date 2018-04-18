@@ -138,6 +138,14 @@ So I have started to run the testAlgo on the RPI and the programmed gets killed 
 I did a print check and it gets to about row 4585 when it needs to go to row 24742. So for the code to be run on the raspi it needs to be optimized. So that is the first result that we get from this lab! or we could increase memory size of the raspi but either way its a result.
 
 
+----
+4/17
+
+So now I will add the print alignment.
+
+
+
+
 
 
 

@@ -49,10 +49,26 @@ struct ret maxScore(int ij,int ji, int i1j1){
 
 	//could be the same score, but only from one place.
 	
-	if(out.score == i1j1){ out.from = 'c';}
-	else if(out.score == ij){out.from = 'l';}
-	else if (out.score == ji){out.from = 'u';}
-	else{out.from = '0';}
+	if(out.score == i1j1){ out.from = 'c';}//always take corner case if possible.
+	else 
+	{
+		if(out.score == ij && out.score == ji)//break tie later on
+		{
+			out.from = 'b';//both
+		}
+		else if(out.score == ij)
+		{
+			out.from = 'u';//from up
+		}
+		else if(out.score == ji)
+		{
+			out.from = 'l';//from left
+		}
+		else
+		{
+			out.from = '0';//zero
+		}
+	}
 	
 	//printf("%d %d %d :: Score: %d From: %c  ",i1j1,ij,ji,out.score,out.from);
 	
@@ -68,7 +84,7 @@ int main(int argc, char **argv)
 {	
 	FILE *stream1;
 	FILE *stream2;
-	stream1 = fopen("bigTest","r");
+	stream1 = fopen("bigTest1","r");
 	stream2 = fopen("bigTest2", "r");
 
 	//getting size of files
@@ -85,22 +101,13 @@ int main(int argc, char **argv)
 		
     //struct ret score[size1][size2]; // too big for the stack. need to store on RAM. double malloc. gross.
     
-	struct ret **score = (struct ret**) calloc(size2+1, sizeof(struct ret*));
+	struct ret **score = (struct ret**) calloc(size1, sizeof(struct ret*));
 
-	for ( int i = 0; i < size2; i++ )
+	for ( int i = 0; i < size1; i++ )
 	{
-		score[i] = (struct ret*) calloc(size1+1, sizeof(struct ret));
+		score[i] = (struct ret*) calloc(size2, sizeof(struct ret));
 	}
-	/*
-    for(int i = 0; i < size1; ++i)//O(n^2)
-	{
-		for(int j=0;j<size2;j++)
-		{
-			printf("%d %c",score[i][j].score,score[i][j].from);
-		}
-		printf("\n  FUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
-	}
-	*/
+
 
 
     char read[2];
@@ -112,10 +119,12 @@ int main(int argc, char **argv)
 
     for(int i = 1; i < size1; ++i)//while(fgets(&read[0],2,stream1) != NULL) //
     {	
+		fgets(&read[0],2,stream1);
 		//i=1;
 
 		 for(int j=1;j<size2;j++)//while(fgets(&read[1],2,stream2) != NULL)
 		{	
+			fgets(&read[1],2,stream2);
 			if(read[0]==read[1]){
 				score[i][j] = maxScore(score[i-1][j].score,score[i][j-1].score,(score[i-1][j-1].score+3));
 			}
@@ -136,33 +145,58 @@ int main(int argc, char **argv)
 
 
 
-		//j++;
+
 		rewind(stream2);
     }
     
    printf("%d %d %d \n",max,ipos,jpos);
-    
+   
+   int ipos2 = ipos; int jpos2 = jpos; 
    int check = max;
    char *arr1 = (char*)calloc(MAX(size1,size2)*2, 8);
    int k=0;
+   
+   
+   FILE *al;
+   al = fopen("OptimalAlignmentTest","w");
+   char out[2]; //out[0] will be the nucleotide from the fseek.
+   out[1] = '-';//this is equal to a space.
+
+
 
    while(check != 0 ){
+	//get optimal alingment here too.
+	fseek(stream2,jpos,SEEK_SET);//set the stream pointer
+	fgets(&out[0],2,stream2);//get the returned nucletide
 	
-	   switch(score[ipos][jpos].from)
+	 switch(score[ipos][jpos].from)
 	   {
 		   case 'c':
 				arr1[k] = 'c';
 				ipos--;
 				jpos--;
+				fwrite(&out[0],1,1,al);
 				break;
+				
+		   case'b'://breaktie here
+				arr1[k] = 'b';
+				ipos--;
+				fwrite(&out[1],1,1,al);
+				break;
+				
 		   case 'u':
 				arr1[k] = 'u';
 				ipos--;
+				fwrite(&out[1],1,1,al);
 				break;
+				
 		   case 'l':
 				arr1[k] = 'l';
+				
+				fwrite(&out[1],1,1,al);
 				jpos--;
 				break;
+				
 		   default:
 				break;
 		   }
@@ -170,6 +204,8 @@ int main(int argc, char **argv)
 	   
 	   check = score[ipos][jpos].score;
 	   k++;
+	   printf("%c", arr1[k]);
+	   
    }
    
     //print checks
@@ -179,31 +215,33 @@ int main(int argc, char **argv)
     {
 		for(int j=0;j<size2;j++)
 		{
-			printf("%c %d ", score[j][i].from,score[j][i].score);
+			printf("%c::%d  ", score[i][j].from,score[i][j].score);
 			
 		}
 		printf("\n");
-    }
-   */
+    }*/
+//does not print this array.
+   for(int i=0; &arr1[i] == 0 ;i++){
 
-
-   for(int i=0;i<220 || &arr1[i] == 0;i++){
+	   
 	   printf("%c  ",arr1[i]);
+	   
+	   
    }
    printf("\n");
    
    
-   
-   
-   
+ 
+  
     free(arr1);
-    
-    for ( int i = 0; i < size1; i++ )
+   
+    for ( int i = 0; i <= size1; i++ )
 	{
-		free(score[i]);
-	}
+		free(score[i]);// getting error here 
 
+	}
 	free(score);
+
 	fclose(stream1);
 	fclose(stream2);
 	
