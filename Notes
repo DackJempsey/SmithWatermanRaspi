@@ -143,8 +143,25 @@ I did a print check and it gets to about row 4585 when it needs to go to row 247
 
 So now I will add the print alignment.
 
+----
+4/23
 
+I am getting some verry odd bugs in the algoTest code. Namely when I try to write the - as a space in the file 
+it does not come out that way. What I have deduced it to is that within the while and switch statements, fwrite
+starts to get wonky in ways that are above me. I have talked to some c pros(friends and friends dads) and they are not sure what it could be.
+I have also searched on the internet on popular sites and there doesnt seem to be the same problem.
+I may have to leave it in as it is not a critical error, that is it will still input a character signifying a space, just not the one I want. I have spent hours debugging this and it is time to move on.
 
+so now I will finish up the encoding code and the optimized code and load the optimized code along with the test code to the raspi and run the tests.
+
+Then I will start on my final report. 
+
+Notes on progress:
+
+I wish that I could have done better with optimizing than I did. 
+I basically emplored the basic optimization techniques that I learned in Comp. Systems. 
+from here I would like to make a cluster and implement it. Within the cluster I would make embedded systems. 
+I would also like to have had a better understanding of the c language. I learned alot while doing this project, but there are many more things that I feel I should have known.
 
 
 

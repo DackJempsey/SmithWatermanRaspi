@@ -163,25 +163,24 @@ int main(int argc, char **argv)
    FILE *al;
    al = fopen("OptimalAlignmentTest","w");
    
-   
-   //fwrite(out1,1,1,al);
+   char *out1;
    char out2;
-   char out1;
-	char *out3="-";
-	out1 = *out3;
+	
 	int shit= 0;
-
+	*out1 = '_';
 	// use write unbuffered
 	char *write = "prints from 5' \n";
 	fwrite(write,1,15,al);
 	
 	while(check != 0 ){
+	
+		
 		
 		//get optimal alingment here too.
 		fseek(stream2,jpos,SEEK_SET);//set the stream pointer
 		fgets(&out2,2,stream2);//get the returned nucletide
 		
-		switch(score[ipos][jpos].from)
+		 switch(score[ipos][jpos].from)
 		   {
 			   case 'c':
 				arr1[k] = 'c';
@@ -198,7 +197,6 @@ int main(int argc, char **argv)
 					break;*/
 					
 			   case 'u':
-
 				arr1[k] = 'u';
 				ipos--;
 				fwrite(&out1,1,1,al);
