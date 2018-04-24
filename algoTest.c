@@ -51,14 +51,12 @@ struct ret maxScore(int ij,int ji, int i1j1){
 	
 	if(out.score == i1j1){ out.from = 'c';}//always take corner case if possible.
 	else 
-	{	/*
+	{
 		if(out.score == ij && out.score == ji)//break tie later on
 		{
 			out.from = 'b';//both
-			printf("Both\n");
 		}
-		*/
-		if(out.score == ij)
+		else if(out.score == ij)
 		{
 			out.from = 'u';//from up
 		}
@@ -86,18 +84,19 @@ int main(int argc, char **argv)
 {	
 	FILE *stream1;
 	FILE *stream2;
-	stream1 = fopen("test4","r");
-	stream2 = fopen("test5", "r");
+	stream1 = fopen("bigTest","r");
+	stream2 = fopen("bigTest2", "r");
+	
 
 	//getting size of files
 	fseek(stream1, 0L, SEEK_END);
 	int size1 = ftell(stream1);
 	rewind(stream1);
-	
+
 	fseek(stream2,0L, SEEK_END);
     int size2 = ftell(stream2);
     rewind(stream2); 
-
+	
 	printf("%d %d:: \n",size1,size2);
 
 		
@@ -153,74 +152,62 @@ int main(int argc, char **argv)
     
    printf("%d %d %d \n",max,ipos,jpos);
    
-   //int ipos2 = ipos; int jpos2 = jpos; 
+   int ipos2 = ipos; int jpos2 = jpos; 
    int check = max;
    char *arr1 = (char*)calloc(MAX(size1,size2)*2, 8);
-   
    int k=0;
    
    
    FILE *al;
    al = fopen("OptimalAlignmentTest","w");
-   
-   
-   //fwrite(out1,1,1,al);
-   char out2;
-   
-   char *out1="-";
+   char out[2]; //out[0] will be the nucleotide from the fseek.
+   out[1] = '-';//this is equal to a space.
 
-	int shit= 0;
 
-	// use write unbuffered
-	char *write = "prints from 5' \n";
-	fwrite(write,1,15,al);
-	
-	while(check != 0 ){
-		
-		//get optimal alingment here too.
-		fseek(stream2,jpos,SEEK_SET);//set the stream pointer
-		fgets(&out2,2,stream2);//get the returned nucletide
-		
-		switch(score[ipos][jpos].from)
-		   {
-			   case 'c':
+
+   while(check != 0 ){
+	//get optimal alingment here too.
+	fseek(stream2,jpos,SEEK_SET);//set the stream pointer
+	fgets(&out[0],2,stream2);//get the returned nucletide
+	t(check);
+	 switch(score[ipos][jpos].from)
+	   {
+		   case 'c':
 				arr1[k] = 'c';
 				ipos--;
 				jpos--;
-				fwrite(&out2,1,1,al);
+				fwrite(&out[0],1,1,al);
 				break;
 				
-				/*	
-			   case'b'://breaktie here
-					arr1[k] = 'b';
-					ipos--;
-					//fwrite(&out[1],1,1,al);
-					break;*/
-					
-			   case 'u':
-
+		   case'b'://breaktie here
+				arr1[k] = 'b';
+				ipos--;
+				fwrite(&out[1],1,1,al);
+				break;
+				
+		   case 'u':
 				arr1[k] = 'u';
 				ipos--;
-				fwrite(out1,1,1,al);
+				fwrite(&out[1],1,1,al);
 				break;
-					
-			   case 'l':
+				
+		   case 'l':
 				arr1[k] = 'l';
-				fwrite(out1,1,1,al);
+				
+				fwrite(&out[1],1,1,al);
 				jpos--;
 				break;
-					
-			   default:
+				
+		   default:
 				break;
-			   }
+		   }
 		   
-		   check = score[ipos][jpos].score;
-		   k++;
-		   //printf("%d::", k);
-		   
-	   }
-   
-  // printf("%d\n", shit);
+	   
+	   check = score[ipos][jpos].score;
+	   k++;
+	   printf("%c", arr1[k]);
+	   
+   }
    
     //print checks
     
@@ -234,34 +221,32 @@ int main(int argc, char **argv)
 		}
 		printf("\n");
     }*/
-    
-//this array is empty
-/*
-   for(int i= (MAX(size1,size2)*2); arr1[i] == 0 ;i--){
+//does not print this array.
+
+   for(int i=0; &arr1[i] == 0 ;i++){
 
 	   
-	   printf("%c", arr1[i]);
-
+	   printf("%c  ",arr1[i]);
+	   
 	   
    }
+   printf("\n");
    
-   printf(" \n ");
    
-   */
+ 
   
     free(arr1);
-
-    for ( int i = 0; i <size1; i++ )
+   
+    for ( int i = 0; i <= size1; i++ )
 	{
 		free(score[i]);// getting error here 
-		//t(i);
 
 	}
-
 	free(score);
 
 	fclose(stream1);
 	fclose(stream2);
+	fclose(al);
 	
 	
 	return 0;
