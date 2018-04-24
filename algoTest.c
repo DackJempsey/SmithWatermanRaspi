@@ -84,8 +84,8 @@ int main(int argc, char **argv)
 {	
 	FILE *stream1;
 	FILE *stream2;
-	stream1 = fopen("bigTest","r");
-	stream2 = fopen("bigTest2", "r");
+	stream1 = fopen("medTest1","r");
+	stream2 = fopen("medTest2", "r");
 	
 
 	//getting size of files
@@ -161,15 +161,15 @@ int main(int argc, char **argv)
    FILE *al;
    al = fopen("OptimalAlignmentTest","w");
    char out[2]; //out[0] will be the nucleotide from the fseek.
-   out[1] = '-';//this is equal to a space.
-
+   char *out1 = "-";//this is equal to a space.
+   char *begin = "starts from 5' \n";
+	fwrite(begin,1,16,al);
 
 
    while(check != 0 ){
 	//get optimal alingment here too.
 	fseek(stream2,jpos,SEEK_SET);//set the stream pointer
 	fgets(&out[0],2,stream2);//get the returned nucletide
-	t(check);
 	 switch(score[ipos][jpos].from)
 	   {
 		   case 'c':
@@ -182,19 +182,19 @@ int main(int argc, char **argv)
 		   case'b'://breaktie here
 				arr1[k] = 'b';
 				ipos--;
-				fwrite(&out[1],1,1,al);
+				fwrite(out1,1,1,al);
 				break;
 				
 		   case 'u':
 				arr1[k] = 'u';
 				ipos--;
-				fwrite(&out[1],1,1,al);
+				fwrite(out1,1,1,al);
 				break;
 				
 		   case 'l':
 				arr1[k] = 'l';
 				
-				fwrite(&out[1],1,1,al);
+				fwrite(out1,1,1,al);
 				jpos--;
 				break;
 				
