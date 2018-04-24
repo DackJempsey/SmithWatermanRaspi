@@ -117,7 +117,6 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides 
 
 	for(int i=0;i<align.bigArrSize1-1;i++){
 		align.bigArr[i]= calloc((align.bigArrSize2+1)*sizeof(int));
-		//printf("%d\n", *align.bigArr[i]);
 	}
 
 	align.ret = fopen("Score", "w");
@@ -126,17 +125,18 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides 
 	
 	//Rowmajor-> do rows first
 	for(int i=0;i<align.bigArrSize1;i++){
-		
+		fgets(smallArr[
 		for(int n=0;n<align.bigArrSize2;n++){
 
 			//takes a few at a time here:
 			//calculations here
 			
 			for(int j=0;j<16;j++){
+				
 				for(int k=0;k<16;k++){
 					//look at the three surrounding matrix entries. pick lowest. or 0.
 					//do an OR to check if zero(meaning it has alignment). if it is not then pick algnemnt score
-					fgets(); 
+
 					
 				}
 			}
