@@ -175,7 +175,15 @@ the raspi then run the tests.
 I need to do a little more computation for getting optimization in the algo, but it shouldnt take too long(Famous last words)
 
 Then I will start on the final report.
+-
 
+So I had to revert to an old git commit to make it not segfault then I changed like two lines and it worked the way it needed.
+
+So I wont be playing with the algoTest code anymore due since I still do not know where the bug was comming from
+for over the weekend.
+
+now I will focus on the optomized algo to finish that up and test the two.
+ 
 
 
 

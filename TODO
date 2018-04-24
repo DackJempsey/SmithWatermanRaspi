@@ -1,8 +1,11 @@
 This is a list of todo Items. Updated Weekly.
 
-Finish optimized code. 
+Finish optimized code:
+max score func
+writing alignment file
 
-test encoding code
+test encoding code:
+make it so that it checks mod 16 to get what the last one should be 
 
 test on RASPI
 
