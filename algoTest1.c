@@ -171,15 +171,14 @@ int main(int argc, char **argv)
 	// use write unbuffered
 	char *write = "prints from 5' \n";
 	fwrite(write,1,15,al);
-	
+	char *out1 = "-";
+
 	while(check != 0 ){
-	
-		
 		
 		//get optimal alingment here too.
 		fseek(stream2,jpos,SEEK_SET);//set the stream pointer
 		fgets(&out2,2,stream2);//get the returned nucletide
-		char *out1 = "-";
+		
 		
 		 switch(score[ipos][jpos].from)
 		   {
@@ -187,8 +186,8 @@ int main(int argc, char **argv)
 				arr1[k] = 'c';
 				ipos--;
 				jpos--;
-				fwrite(&out2,1,1,al);
-
+				fwrite(&out2,1,1,al);//not  able to access the al file seg faults
+				
 				break;
 				
 				/*	
@@ -262,7 +261,7 @@ int main(int argc, char **argv)
 
 	fclose(stream1);
 	fclose(stream2);
-	
+	fclose(al);
 	
 	return 0;
 }
