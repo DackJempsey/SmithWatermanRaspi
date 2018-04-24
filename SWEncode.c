@@ -33,7 +33,7 @@
 void t(int i){
 	printf("test #%d \n",i);
 }
-
+/*
 FILE *prePrep(char *file)//This takes the file and creates new files and titles. 
     //also takes all cases and converts to uppercase.
 {	//first line of string should be ">sequence A - some descriptors then: /n the next line is the string"
@@ -72,9 +72,10 @@ FILE *prePrep(char *file)//This takes the file and creates new files and titles.
 	fclose(readfile);
 	return writefile;
 }
+*/
 
 
-char pack(int i,char nuc1,char nuc2){//takes index i 1->4 and packs the nucleoditdes into one
+int pack(int i,int nuc1,int nuc2){//takes index i 1->4 and packs the nucleoditdes into one
 	//bit shift right nuc 2 over by the index, OR the nucs, return that.
 	i=i*2;
 	nuc2 = nuc2 >> i;
@@ -86,16 +87,18 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 {
 	
 	FILE *out; //output
-	out = fopen("Encoded.bin", "wb");
-	char outArr[100];//to use in the while loop.-> make dynamic
-	//int wArr[8];
-	
-	//create a file to put the encoding.
+	out = fopen("Encoded", "w");//create a file to put the encoding.
 	
 	
 	//put file where test is, then comment this out. used only for testing
 	FILE *test1;
-	test1  = fopen("test3", "r");
+	test1  = fopen("bigTest2", "r");
+	//getting size of files
+	fseek(test1, 0L, SEEK_END);
+	int size1 = ftell(test1);// also do mod to check if there needs to be an extra encoding
+	rewind(test1);
+	
+	char *outArr = (char*) malloc(size1);
 	
 	if(test1 == 0)
 	{
@@ -113,17 +116,16 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 		//do encoding here
 		 
 		int index =0;
-		int index2=1;
+		int index2=0;
 		int outC;
 		rewind(test1);
 		
-		while( index<99 || fscanf(test1, "%s", &outArr[index]) != EOF)
+		while( index<size1)
 		{
-			//printf("test\n");
-			
 			//ASII -> binary file -> hex. then change to make it efficient.
 
 			fgets(&outArr[index],2,test1); //nucluetide from the line. 
+
 
 			switch(outArr[index]) // convert nucluotide and store in out
 			{
@@ -172,16 +174,20 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 					else
 					{
 						outC = 0x3;
-					}				
+					}		
+					break;		
 									
 															
 				default :
-					printf("%s", "Invalid character \n");
+					printf("%s %c\n", "Invalid character: ",outArr[index]);
 			
 			}
-			if(index2 == 8){
-				fwrite(&outC,1,1,out);
-				index2=1;
+
+			if(index2 == 16){
+				fprintf(out,"%d",outC);
+				index2=0;
+				t(index);
+				printf("%d \n::",outC);
 			}
 			
 			else
@@ -189,15 +195,14 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 				index2+=2;
 			}
 			
-			index+=2;
-			printf("%d\n", outC);
-			
+			index+=1;
 		}
 	}
 
 	
-	//fclose(fasta);
+	fclose(test1);
 	fclose(out);
+	free(outArr);
 	
 	return out;
 }

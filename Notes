@@ -165,7 +165,16 @@ I would also like to have had a better understanding of the c language. I learne
 
 I'll be able to test the optimal code tomorrow. Ill also just do the bare-bones of the encoding, and may have to manual prepare some of the data sets. not the worst if I had more time I would put that in the encoding scheme.
 
+---
+4/24
 
+So I just finished up on the encoding code. Works pretty well, I get ~4-5x compression which is awesome. Now I need to finish up on the SWAlgo and ill be good to start the tests.
+
+I have decided to do all compiling on my personal Mac laptop. Then I will transfer the a.out(executable) file to
+the raspi then run the tests. 
+I need to do a little more computation for getting optimization in the algo, but it shouldnt take too long(Famous last words)
+
+Then I will start on the final report.
 
 
 

@@ -166,9 +166,9 @@ int main(int argc, char **argv)
    
    //fwrite(out1,1,1,al);
    char out2;
-   char out1;
-	char *out3="-";
-	out1 = *out3;
+   
+   char *out1="-";
+
 	int shit= 0;
 
 	// use write unbuffered
@@ -201,12 +201,12 @@ int main(int argc, char **argv)
 
 				arr1[k] = 'u';
 				ipos--;
-				fwrite(&out1,1,1,al);
+				fwrite(out1,1,1,al);
 				break;
 					
 			   case 'l':
 				arr1[k] = 'l';
-				fwrite(&out1,1,1,al);
+				fwrite(out1,1,1,al);
 				jpos--;
 				break;
 					
