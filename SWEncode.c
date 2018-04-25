@@ -87,7 +87,7 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 {
 	
 	FILE *out; //output
-	out = fopen("Encoded", "w");//create a file to put the encoding.
+	out = fopen("Encoded2", "w");//create a file to put the encoding.
 	
 	
 	//put file where test is, then comment this out. used only for testing
@@ -204,7 +204,7 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 		
 	}
 	
-	printf("%d\n",extra);
+	
 	
 	fclose(test1);
 	fclose(out);

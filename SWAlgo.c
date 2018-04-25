@@ -29,27 +29,29 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct stuc{
+#define MAX(x, y) (((x) > (y)) ? (x) : (y))
 
-		int smallArr[8][8];//this is the array that will be used for calculations.fixed
-		
-		int bigArrSize1;
-		int bigArrSize2;
-		
-		int **bigArr;		
-		//char bigArr[][];
-		
-		FILE *ret;
-};
-
-void t(int i){
-	printf("test #%d \n",i);
-}
 struct ret{
 	int score;
 	char from;//three options c - corner u-up l -left
 	
 };
+
+struct stuc{
+
+		struct ret smallArr[8][8];//this is the array that will be used for calculations.fixed
+		
+		int bigArrSize1;
+		int bigArrSize2;
+		
+		struct ret **bigArr;
+		
+		FILE *retFile;
+};
+
+void t(int i){
+	printf("test #%d \n",i);
+}
 
 
 struct ret maxScore(int ij,int ji, int i1j1){
@@ -94,74 +96,75 @@ struct ret maxScore(int ij,int ji, int i1j1){
 
 FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides and returns alignment of the two
 	//this is the actual algorithm func here
-	
+
 	
 	struct stuc align;
 	
-	align.bigArrSize1 = 100;
-	align.bigArrSize2 = 100;
+	//getting size of files
+	fseek(nuc1, 0L, SEEK_END);
+	align.bigArrSize1 = ftell(nuc1);
+	rewind(nuc1);
 
-	align.bigArr = malloc((align.bigArrSize1)*sizeof(int*));
+	fseek(nuc2,0L, SEEK_END);
+    align.bigArrSize2 = ftell(nuc2);
+    rewind(nuc2);
+     
+	printf("Size1:%d Size2:%d:: \n",align.bigArrSize1,align.bigArrSize2);
+
+
+	align.bigArr = calloc((align.bigArrSize1),sizeof(struct ret*));
 
 	for(int i=0;i<align.bigArrSize1-1;i++){
-		align.bigArr[i]= malloc((align.bigArrSize2+1)*sizeof(int));
-		printf("%d\n", *align.bigArr[i]);
-		align.bigArr[i]= calloc((align.bigArrSize2+1)*sizeof(int));
-		//printf("%d\n", *align.bigArr[i]);
+		align.bigArr[i]= calloc((align.bigArrSize2+1),sizeof(struct ret));
 
 	}
-
-	align.ret = fopen("Score", "w");
-
-	//initialize smalArr
-	for(int j=0;j<8;j++){
-		align.smallArr[0][j] = 0;
-		}
-	for(int i=0;i<8;i++){
-		align.smallArr[i][0] = 0;
-	}
+	align.retFile = fopen("Score", "w");
 
 	//Rowmajor-> do rows first
-	for(int i=0;i<align.bigArrSize1;i++){
+	char read[2];//for storing in fgets
 
-		for(int n=0;n<align.bigArrSize2;n++){
+	for(int i=0;i<align.bigArrSize1-8;i+=8){
+		
+		for(int n=0;n<align.bigArrSize2-8;n+=8){
+			//take values from big arr and put in small arr. only for first line
+			for(int f =0;f<8;f++){
+				//initializing small arr.
 
-			//takes a few at a time here:
-			//calculations here
-
-			for(int j=0;j<4;j++){
-				for(int k=0;k<4;k++){
+				align.smallArr[f][0] = align.bigArr[i+f][n];
+				align.smallArr[0][f] = align.bigArr[i][n+f];
+				//not optimal but gets it done, otherwise, use another for loop.
+			}
+			for(int j=1;j<8;j++){
+				fgets(&read[0],3,nuc1);
+				for(int k=1;k<8;k++){
+					fgets(&read[1],3,nuc2);
 					//look at the three surrounding matrix entries. pick lowest. or 0.
-					//do an OR to check if zero(meaning it has alignment). if it is not then pick algnemnt score 
-					
-
-			
-			for(int j=0;j<16;j++){
-				for(int k=0;k<16;k++){
-					//look at the three surrounding matrix entries. pick lowest. or 0.
-					//do an OR to check if zero(meaning it has alignment). if it is not then pick algnemnt score
-					fgets(); 
-
+					if(read[0]==read[1]){
+						align.smallArr[j][k] = maxScore(align.smallArr[j-1][k].score,align.smallArr[j][k-1].score,(align.smallArr[j-1][k-1].score+3));
+					}
+					else{
+						align.smallArr[j][k] = maxScore(align.smallArr[j-1][k].score,align.smallArr[j][k-1].score,(align.smallArr[j-1][k-1].score-3));
+					}
 					
 				}
+
 			}
-			printf("test\n");
 		//transfer to larger matrix here:
 		//this may be the bottleneck due to the transfer of data i.e. need to initialize smallArr for nex
 		//round so that it can use previous values.
-		
-			for(int j=0;j<4;j++){
-				for(int k=0;k<4;k++){
-					align.smallArr[k][j] = align.bigArr[align.bigArrSize2][align.bigArrSize1];
+
+				for(int j=1;j<8;j++){
+					for(int k=1;k<8;k++){
+						align.smallArr[k][j] = align.bigArr[j+i][k+n];
+					}
 				}
-			}
-		
-		
+
 		}
 	}
 	
-	fclose(align.ret);
-	return align.ret;
+	fclose(align.retFile);
+	
+	return align.retFile;
 	
 }
 
@@ -183,9 +186,12 @@ int main(int argc, char **argv)
 	
 	scanf('%c', input);
 	*/
-	FILE *test1 = NULL;
-	FILE *test2 = NULL;
+	FILE *test1 = fopen("Encoded1","r");
+	FILE *test2 = fopen("Encoded2","r");
 	retScore(alignment(test1,test2));
+	fclose(test1);
+	fclose(test2);
+	
 	
 	return 0;
 }
