@@ -95,8 +95,10 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 	test1  = fopen("bigTest2", "r");
 	//getting size of files
 	fseek(test1, 0L, SEEK_END);
-	int size1 = ftell(test1);// also do mod to check if there needs to be an extra encoding
+	int size1 = ftell(test1);
 	rewind(test1);
+	
+	
 	
 	char *outArr = (char*) malloc(size1);
 	
@@ -120,12 +122,11 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 		int outC;
 		rewind(test1);
 		
-		while( index<size1)
+		while( index<=size1 )
 		{
 			//ASII -> binary file -> hex. then change to make it efficient.
 
 			fgets(&outArr[index],2,test1); //nucluetide from the line. 
-
 
 			switch(outArr[index]) // convert nucluotide and store in out
 			{
@@ -176,29 +177,34 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 						outC = 0x3;
 					}		
 					break;		
-									
-															
+					
 				default :
 					printf("%s %c\n", "Invalid character: ",outArr[index]);
+					break;
 			
 			}
 
 			if(index2 == 16){
-				fprintf(out,"%d",outC);
+				fprintf(out,"%d ",outC);
 				index2=0;
-				t(index);
-				printf("%d \n::",outC);
+				//printf("%d \n::",outC);
 			}
-			
-			else
+			else if(index == size1 ){//still need to deal with the extra data. this is when the size is not 0 mod 16.
+				fprintf(out,"%d ",outC);
+				break;//done with encoding
+			}
+			else 
 			{
 				index2+=2;
 			}
 			
 			index+=1;
 		}
+		
+		
 	}
-
+	
+	printf("%d\n",extra);
 	
 	fclose(test1);
 	fclose(out);

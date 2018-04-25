@@ -184,7 +184,10 @@ for over the weekend.
 
 now I will focus on the optomized algo to finish that up and test the two.
  
+-
 
+I had to add a seperating value to the encoded data since they are integers. So that added 2kb to a 5kb datafile.
+That is a bit much, but it is needed.
 
 
 
