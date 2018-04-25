@@ -92,7 +92,7 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 	
 	//put file where test is, then comment this out. used only for testing
 	FILE *test1;
-	test1  = fopen("test5", "r");
+	test1  = fopen("medTest2", "r");
 	//getting size of files
 	fseek(test1, 0L, SEEK_END);
 	int size1 = ftell(test1);
@@ -185,7 +185,7 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 			}
 
 			if(index2 == 16){
-				fprintf(out,"%d ",outC);
+				fprintf(out,"%d,",outC);
 				index2=0;
 				//printf("%d \n::",outC);
 			}

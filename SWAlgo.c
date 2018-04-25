@@ -94,7 +94,63 @@ struct ret maxScore(int ij,int ji, int i1j1){
 	return out;
 }
 
-FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides and returns alignment of the two
+void check(struct ret **score, FILE *stream1,FILE *stream2,int ipos, int jpos,int max){
+	
+	FILE *al;
+	//char *arr1 = (char*)malloc(MAX(size1,size2)*2);
+    int k=0;
+    
+   al = fopen("OptimalAlignment","w");
+   int out[2]; //out[0] will be the nucleotide from the fseek.
+   char *out1 = "-";//this is equal to a space.
+   char *begin = "starts from 5' \n";
+	fwrite(begin,1,16,al);
+
+
+   while(max != 0 ){
+	//get optimal alingment here too.
+	fseek(stream2,jpos,SEEK_SET);//set the stream pointer
+	fscanf(al,"%d",&out[0]);//get the returned nucletide
+	 switch(score[ipos][jpos].from)
+	   {
+		   case 'c':
+				//arr1[k] = 'c';
+				ipos--;
+				jpos--;
+				fprintf(al,"%d,",out[0]);
+				break;
+				
+		   case'b'://breaktie here
+				//arr1[k] = 'b';
+				ipos--;
+				fprintf(al,"%s",out1);
+				break;
+				
+		   case 'u':
+				//arr1[k] = 'u';
+				ipos--;
+				fprintf(al,"%s,",out1);
+				break;
+				
+		   case 'l':
+				//arr1[k] = 'l';
+				
+				fprintf(al,"%s,",out1);
+				jpos--;
+				break;
+				
+		   default:
+				break;
+		   }
+		   
+	   max = score[ipos][jpos].score;
+	   k++;
+	   //printf("%c\n", arr1[k]);
+	   
+   }
+}
+
+FILE *alignment(FILE *nuc1, FILE *nuc2){ //takes in files of encoded nucleotides and returns alignment of the two
 	//this is the actual algorithm func here
 
 	
@@ -103,12 +159,12 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides 
 	//getting size of files
 	fseek(nuc1, 0L, SEEK_END);
 	align.bigArrSize1 = ftell(nuc1);
-	align.bigArrSize1 = align.bigArrSize1-(align.bigArrSize1%8);
+	//align.bigArrSize1 = align.bigArrSize1-(align.bigArrSize1%8);
 	rewind(nuc1);
 
 	fseek(nuc2,0L, SEEK_END);
     align.bigArrSize2 = ftell(nuc2);
-    align.bigArrSize2 = align.bigArrSize2-(align.bigArrSize2%8);
+    //align.bigArrSize2 = align.bigArrSize2-(align.bigArrSize2%8);
     rewind(nuc2);
      
 	printf("Size1:%d Size2:%d:: \n",align.bigArrSize1,align.bigArrSize2);
@@ -125,14 +181,12 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides 
 	//Rowmajor-> do rows first
 	int read1;//for storing in fgets
 	int read2;
-	int max;
+	int max=0;
 	int ipos,jpos;
 	
-	
 	for(int i=0;i<align.bigArrSize1-8;i+=8){
-		
 		for(int n=0;n<align.bigArrSize2-8;n+=8){
-			//take values from big arr and put in small arr. only for first line
+			//take values from big arr and put in small arr. only for first line'
 			for(int f =0;f<8;f++){
 				//initializing small arr.
 
@@ -140,13 +194,13 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides 
 				align.smallArr[0][f] = align.bigArr[i][n+f];
 				//not optimal but gets it done, otherwise, use another for loop.
 			}
-			for(int j=1;j<8;j++){
-				fscanf(nuc1,"%d ",&read1);
-				printf("%d \n",read1);
+			for(int j=1;j<8 ;j++){
+				fscanf(nuc1,"%d,",&read1);
+				//printf("read1:%d\n",read1);
 				
-				for(int k=1;k<8;k++){
-					
-					fscanf(nuc2,"%d ",&read2);
+				for(int k=1; k<8 ;k++){
+					fscanf(nuc2,"%d,",&read2);
+					//printf("read2:%d\n",read2);
 					//look at the three surrounding matrix entries. pick lowest. or 0.
 					
 					if(read1 ==read2){
@@ -156,30 +210,40 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides 
 						align.smallArr[j][k] = maxScore(align.smallArr[j-1][k].score,align.smallArr[j][k-1].score,(align.smallArr[j-1][k-1].score-3));
 					}
 					
-					if(max != MAX(align.smallArr[j][k].score, max)){
+					if(max != MAX(align.smallArr[j][k].score, max))
+					{
 						max = MAX(align.smallArr[j][k].score, max);//get the max score for traversing.
 						ipos=i;
-						jpos=j;//got position of max score
-						printf("Max So Far:%d \n",max);
-						}
-					fseek(nuc1,n,SEEK_CUR);
+						jpos=n;//got position of max score
+						printf("Max So Far:%d i:%d j:%d\n",max,ipos,jpos);
+					}
+					//printf("::%d %c",align.smallArr[j][k].score,align.smallArr[j][k].from);
+					align.smallArr[k][j] = align.bigArr[j+i][k+n];
 				}
+				fseek(nuc2,n,SEEK_SET);
 			}
-			fseek(nuc2,i,SEEK_CUR);
+			
 		//transfer to larger matrix here:
 		//this may be the bottleneck due to the transfer of data i.e. need to initialize smallArr for nex
 		//round so that it can use previous values.
-
-				for(int j=1;j<8;j++){
-					for(int k=1;k<8;k++){
-						align.smallArr[k][j] = align.bigArr[j+i][k+n];
-						//printf("%d ",align.bigArr[j+i][k+n].score);
+/*print checks
+				for(int j=0;j<8;j++){
+					for(int k=0;k<8;k++){
+						//align.smallArr[k][j] = align.bigArr[j+i][k+n];
+						printf("%d ",align.smallArr[k][j].score);
 					}
-					//printf("\n");
+					
 				}
-
+				printf("\n");
+				*/
 		}
+		
+		fseek(nuc1,i,SEEK_SET);
 	}
+	printf("%d\n",max);
+	
+	
+	check(align.bigArr,nuc1,nuc2,ipos,jpos,max);
 	
 	for ( int i = 0; i < align.bigArrSize1; i++ )
 	{
@@ -193,14 +257,6 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides 
 	
 }
 
-int retScore(FILE *alginment){//takes in best alignment and returns a score
-	int score=0;
-	//go through bigArr and find the best alingment 
-	
-	
-
-	return score;
-}
 
 int main(int argc, char **argv)
 {
@@ -213,7 +269,9 @@ int main(int argc, char **argv)
 	*/
 	FILE *test1 = fopen("Encoded1","r");
 	FILE *test2 = fopen("Encoded2","r");
-	retScore(alignment(test1,test2));
+	
+	alignment(test1,test2);
+	
 	fclose(test1);
 	fclose(test2);
 	
