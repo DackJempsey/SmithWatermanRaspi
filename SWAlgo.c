@@ -95,7 +95,6 @@ struct ret maxScore(int ij,int ji, int i1j1){
 }
 
 void check(struct ret **score, FILE *stream1,FILE *stream2,int ipos, int jpos,int max){
-	
 	FILE *al;
 	//char *arr1 = (char*)malloc(MAX(size1,size2)*2);
     int k=0;
@@ -105,12 +104,13 @@ void check(struct ret **score, FILE *stream1,FILE *stream2,int ipos, int jpos,in
    char *out1 = "-";//this is equal to a space.
    char *begin = "starts from 5' \n";
 	fwrite(begin,1,16,al);
-
+	
 
    while(max != 0 ){
 	//get optimal alingment here too.
 	fseek(stream2,jpos,SEEK_SET);//set the stream pointer
-	fscanf(al,"%d",&out[0]);//get the returned nucletide
+	fscanf(stream2,"%d",&out[0]);//get the returned nucletide
+	
 	 switch(score[ipos][jpos].from)
 	   {
 		   case 'c':
@@ -123,7 +123,7 @@ void check(struct ret **score, FILE *stream1,FILE *stream2,int ipos, int jpos,in
 		   case'b'://breaktie here
 				//arr1[k] = 'b';
 				ipos--;
-				fprintf(al,"%s",out1);
+				fprintf(al,"%s,",out1);
 				break;
 				
 		   case 'u':
@@ -213,12 +213,11 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){ //takes in files of encoded nucleotides
 					if(max != MAX(align.smallArr[j][k].score, max))
 					{
 						max = MAX(align.smallArr[j][k].score, max);//get the max score for traversing.
-						ipos=i;
-						jpos=n;//got position of max score
+						ipos=i+j;
+						jpos=n+k;//got position of max score
 						printf("Max So Far:%d i:%d j:%d\n",max,ipos,jpos);
 					}
-					//printf("::%d %c",align.smallArr[j][k].score,align.smallArr[j][k].from);
-					align.smallArr[k][j] = align.bigArr[j+i][k+n];
+
 				}
 				fseek(nuc2,n,SEEK_SET);
 			}
@@ -226,22 +225,20 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){ //takes in files of encoded nucleotides
 		//transfer to larger matrix here:
 		//this may be the bottleneck due to the transfer of data i.e. need to initialize smallArr for nex
 		//round so that it can use previous values.
-/*print checks
 				for(int j=0;j<8;j++){
 					for(int k=0;k<8;k++){
-						//align.smallArr[k][j] = align.bigArr[j+i][k+n];
-						printf("%d ",align.smallArr[k][j].score);
+						align.bigArr[j+i][k+n] = align.smallArr[k][j];
+						//printf(" %d ",align.smallArr[k][j].score);
+						//printf("%d ::",align.bigArr[j+i][k+n].score);
 					}
 					
 				}
-				printf("\n");
-				*/
+				//printf("\n");
+				
 		}
 		
 		fseek(nuc1,i,SEEK_SET);
 	}
-	printf("%d\n",max);
-	
 	
 	check(align.bigArr,nuc1,nuc2,ipos,jpos,max);
 	

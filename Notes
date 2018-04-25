@@ -190,4 +190,18 @@ I had to add a seperating value to the encoded data since they are integers. So 
 That is a bit much, but it is needed.
 
 
+---
+Early 4/25
+
+I have a result from SWAlgo but its still encoded. Also SWAlgo only does the algorithm on the compressed data, so the scores are very low. However on my local computer it runs much faster. I will try on the Raspi and see.
+
+
+Testing on the raspberry pi was an early success! Quick, and did not fail. I tried the 
+largest string encoded it on my local, transfered it to the pi and ran the SWAlgo. 
+
+So that is a better result than having it fail each time.
+
+
+
+
 
