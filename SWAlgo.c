@@ -103,10 +103,12 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides 
 	//getting size of files
 	fseek(nuc1, 0L, SEEK_END);
 	align.bigArrSize1 = ftell(nuc1);
+	align.bigArrSize1 = align.bigArrSize1-(align.bigArrSize1%8);
 	rewind(nuc1);
 
 	fseek(nuc2,0L, SEEK_END);
     align.bigArrSize2 = ftell(nuc2);
+    align.bigArrSize2 = align.bigArrSize2-(align.bigArrSize2%8);
     rewind(nuc2);
      
 	printf("Size1:%d Size2:%d:: \n",align.bigArrSize1,align.bigArrSize2);
@@ -121,8 +123,12 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides 
 	align.retFile = fopen("Score", "w");
 
 	//Rowmajor-> do rows first
-	char read[2];//for storing in fgets
-
+	int read1;//for storing in fgets
+	int read2;
+	int max;
+	int ipos,jpos;
+	
+	
 	for(int i=0;i<align.bigArrSize1-8;i+=8){
 		
 		for(int n=0;n<align.bigArrSize2-8;n+=8){
@@ -135,20 +141,31 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides 
 				//not optimal but gets it done, otherwise, use another for loop.
 			}
 			for(int j=1;j<8;j++){
-				fgets(&read[0],3,nuc1);
+				fscanf(nuc1,"%d ",&read1);
+				printf("%d \n",read1);
+				
 				for(int k=1;k<8;k++){
-					fgets(&read[1],3,nuc2);
+					
+					fscanf(nuc2,"%d ",&read2);
 					//look at the three surrounding matrix entries. pick lowest. or 0.
-					if(read[0]==read[1]){
+					
+					if(read1 ==read2){
 						align.smallArr[j][k] = maxScore(align.smallArr[j-1][k].score,align.smallArr[j][k-1].score,(align.smallArr[j-1][k-1].score+3));
 					}
 					else{
 						align.smallArr[j][k] = maxScore(align.smallArr[j-1][k].score,align.smallArr[j][k-1].score,(align.smallArr[j-1][k-1].score-3));
 					}
 					
+					if(max != MAX(align.smallArr[j][k].score, max)){
+						max = MAX(align.smallArr[j][k].score, max);//get the max score for traversing.
+						ipos=i;
+						jpos=j;//got position of max score
+						printf("Max So Far:%d \n",max);
+						}
+					fseek(nuc1,n,SEEK_CUR);
 				}
-
 			}
+			fseek(nuc2,i,SEEK_CUR);
 		//transfer to larger matrix here:
 		//this may be the bottleneck due to the transfer of data i.e. need to initialize smallArr for nex
 		//round so that it can use previous values.
@@ -156,14 +173,22 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides 
 				for(int j=1;j<8;j++){
 					for(int k=1;k<8;k++){
 						align.smallArr[k][j] = align.bigArr[j+i][k+n];
+						//printf("%d ",align.bigArr[j+i][k+n].score);
 					}
+					//printf("\n");
 				}
 
 		}
 	}
 	
-	fclose(align.retFile);
+	for ( int i = 0; i < align.bigArrSize1; i++ )
+	{
+		free(align.bigArr[i]);// getting error here 
+	}
+	free(align.bigArr);
 	
+	fclose(align.retFile);
+
 	return align.retFile;
 	
 }
