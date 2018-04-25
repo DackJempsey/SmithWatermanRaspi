@@ -45,6 +45,52 @@ struct stuc{
 void t(int i){
 	printf("test #%d \n",i);
 }
+struct ret{
+	int score;
+	char from;//three options c - corner u-up l -left
+	
+};
+
+
+struct ret maxScore(int ij,int ji, int i1j1){
+	
+	struct ret out;
+
+	//i1j1 = i1j1;// + 3;
+	ij= ij-2;
+	ji=ji-2;
+	//or 0
+	
+	out.score = MAX(ji,MAX(ij,MAX(i1j1,0)));
+	
+
+	//could be the same score, but only from one place.
+	
+	if(out.score == i1j1){ out.from = 'c';}//always take corner case if possible.
+	else 
+	{
+		if(out.score == ij && out.score == ji)//break tie later on
+		{
+			out.from = 'b';//both
+		}
+		else if(out.score == ij)
+		{
+			out.from = 'u';//from up
+		}
+		else if(out.score == ji)
+		{
+			out.from = 'l';//from left
+		}
+		else
+		{
+			out.from = '0';//zero
+		}
+	}
+	
+	//printf("%d %d %d :: Score: %d From: %c  ",i1j1,ij,ji,out.score,out.from);
+	
+	return out;
+}
 
 FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides and returns alignment of the two
 	//this is the actual algorithm func here
@@ -58,13 +104,11 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides 
 	align.bigArr = malloc((align.bigArrSize1)*sizeof(int*));
 
 	for(int i=0;i<align.bigArrSize1-1;i++){
-<<<<<<< HEAD
 		align.bigArr[i]= malloc((align.bigArrSize2+1)*sizeof(int));
 		printf("%d\n", *align.bigArr[i]);
-=======
 		align.bigArr[i]= calloc((align.bigArrSize2+1)*sizeof(int));
 		//printf("%d\n", *align.bigArr[i]);
->>>>>>> parent of 6f18b59... Small updates
+
 	}
 
 	align.ret = fopen("Score", "w");
@@ -79,28 +123,25 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides 
 
 	//Rowmajor-> do rows first
 	for(int i=0;i<align.bigArrSize1;i++){
-<<<<<<< HEAD
-=======
-		
->>>>>>> parent of 6f18b59... Small updates
+
 		for(int n=0;n<align.bigArrSize2;n++){
 
 			//takes a few at a time here:
 			//calculations here
-<<<<<<< HEAD
+
 			for(int j=0;j<4;j++){
 				for(int k=0;k<4;k++){
 					//look at the three surrounding matrix entries. pick lowest. or 0.
 					//do an OR to check if zero(meaning it has alignment). if it is not then pick algnemnt score 
 					
-=======
+
 			
 			for(int j=0;j<16;j++){
 				for(int k=0;k<16;k++){
 					//look at the three surrounding matrix entries. pick lowest. or 0.
 					//do an OR to check if zero(meaning it has alignment). if it is not then pick algnemnt score
 					fgets(); 
->>>>>>> parent of 6f18b59... Small updates
+
 					
 				}
 			}
@@ -118,7 +159,6 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){//takes in files of encoded nucleotides 
 		
 		}
 	}
-	printf("test2\n");
 	
 	fclose(align.ret);
 	return align.ret;
