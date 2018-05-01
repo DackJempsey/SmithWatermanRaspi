@@ -102,7 +102,7 @@ void check(struct ret **score, FILE *stream1,FILE *stream2,int ipos, int jpos,in
    al = fopen("OptimalAlignment","w");
    int out[2]; //out[0] will be the nucleotide from the fseek.
    char *out1 = "-";//this is equal to a space.
-   char *begin = "starts from 5' \n";
+   char *begin = "starts from 3' \n";
 	fwrite(begin,1,16,al);
 	
 
@@ -110,14 +110,17 @@ void check(struct ret **score, FILE *stream1,FILE *stream2,int ipos, int jpos,in
 	//get optimal alingment here too.
 	fseek(stream2,jpos,SEEK_SET);//set the stream pointer
 	fscanf(stream2,"%d",&out[0]);//get the returned nucletide
-	
+	//printf("%d ", out[0]);
+
 	 switch(score[ipos][jpos].from)
 	   {
+	
 		   case 'c':
 				//arr1[k] = 'c';
 				ipos--;
 				jpos--;
-				fprintf(al,"%d,",out[0]);
+				fprintf(al,"%d ", out[0]);
+
 				break;
 				
 		   case'b'://breaktie here
@@ -151,7 +154,34 @@ void check(struct ret **score, FILE *stream1,FILE *stream2,int ipos, int jpos,in
 }
 
 char *unpack(int encode){//takes the integer and unpacks that into an array of characters
+	char out[8];
+	int transfer;
 	
+	for(int i=0;i<8;i++)
+	{
+		transfer = encode>>(i*2);
+		transfer = encode<<14;
+		switch(transfer){
+		case 0:
+			out[i] = 'A';
+			break;
+		case 0x10:
+			out[i] = 'G';
+			break;
+		case 0x01:
+			out[i] = 'C';
+			break;
+		case 0x11:
+			out[i] = 'T';
+			break;
+		default:
+			break;
+		}
+	}
+
+		
+	
+	return out;
 	
 	
 }
@@ -163,7 +193,7 @@ FILE *decode(FILE *align){//takes encoded file and returns decoded string file
 	
 	
 	
-	return *out;
+	return out;
 }
 
 FILE *alignment(FILE *nuc1, FILE *nuc2){ //takes in files of encoded nucleotides and returns alignment of the two
@@ -255,9 +285,9 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){ //takes in files of encoded nucleotides
 		
 		fseek(nuc1,i,SEEK_SET);
 	}
-	
-	check(align.bigArr,nuc1,nuc2,ipos,jpos,max);
-	
+
+	check(align.bigArr,nuc1,nuc2,ipos,jpos,max);//segfaulting
+
 	for ( int i = 0; i < align.bigArrSize1; i++ )
 	{
 		free(align.bigArr[i]);// getting error here 
