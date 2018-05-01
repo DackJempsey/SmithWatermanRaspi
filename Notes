@@ -201,6 +201,13 @@ largest string encoded it on my local, transfered it to the pi and ran the SWAlg
 
 So that is a better result than having it fail each time.
 
+--
+4/30
+
+Need to add some more functions like decoding the encoded result. Then also need to see if it is good or not.
+Also need to add that the inner loop upacks the data so that it can get a better result.
+
+
 
 
 

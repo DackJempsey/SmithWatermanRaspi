@@ -150,6 +150,15 @@ void check(struct ret **score, FILE *stream1,FILE *stream2,int ipos, int jpos,in
    }
 }
 
+FILE *decode(FILE *align){
+	FILE *out;
+	
+	
+	
+	
+	return *out;
+}
+
 FILE *alignment(FILE *nuc1, FILE *nuc2){ //takes in files of encoded nucleotides and returns alignment of the two
 	//this is the actual algorithm func here
 
