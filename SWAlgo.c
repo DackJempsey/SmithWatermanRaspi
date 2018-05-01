@@ -150,7 +150,14 @@ void check(struct ret **score, FILE *stream1,FILE *stream2,int ipos, int jpos,in
    }
 }
 
-FILE *decode(FILE *align){
+char *unpack(int encode){//takes the integer and unpacks that into an array of characters
+	
+	
+	
+}
+
+
+FILE *decode(FILE *align){//takes encoded file and returns decoded string file
 	FILE *out;
 	
 	
