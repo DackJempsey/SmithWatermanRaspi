@@ -207,6 +207,21 @@ So that is a better result than having it fail each time.
 Need to add some more functions like decoding the encoded result. Then also need to see if it is good or not.
 Also need to add that the inner loop upacks the data so that it can get a better result.
 
+--
+5/1
+
+Added a decoding functions
+In doing the decode function I found out that my encode function was horribly wrong. I have since changed that so that it correctly encodes.
+
+The problem was the left v.s. right shift, also unsigned vs signed integers, also unsigned ints are 4 bytes, so instead of a an 8x compression it is more like 3x. 
+
+I did add the .jack at the end of the encoded filename though so now I have actually created a file type!
+
+Still figuring out innerloop stuff with unpacking the data.
+
+--
+
+
 
 
 

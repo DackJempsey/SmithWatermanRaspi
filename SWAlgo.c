@@ -153,39 +153,35 @@ void check(struct ret **score, FILE *stream1,FILE *stream2,int ipos, int jpos,in
    }
 }
 
-char *unpack(int encode){//takes the integer and unpacks that into an array of characters
-	char out[8];
+char unpack(unsigned int encode,int i){//takes the integer and unpacks it to the iteration i within the encoded int. 
+									//need a for loop to unpack all of the encoded strings
+	char out;
 	
 	unsigned int transfer;
+	
+	
+	transfer = encode << i;
+	transfer = transfer >> 30 ;
 
-	for(int i=0;i<14;i+=2)
-	{
-		transfer = encode >> i;
-		
-		transfer = transfer << 14;
-
-		printf("Encoded:%d Transfer:%d:: ",encode,transfer);
-		switch(transfer){
-		case 0x00:
-			out[i] = 'A';
-
+	printf("Encoded:%d Transfer:%d:: \n",encode,transfer);
+	
+	switch(transfer){
+		case 0:
+			out = 'A';
 			break;
-		case 0x10:
-			out[i] = 'G';
+		case 1:
+			out= 'C';
 			break;
-		case 0x01:
-			out[i] = 'C';
+		case 2:
+			out = 'G';
 			break;
-		case 0x11:
-			out[i] = 'T';
+		case 3:
+			out= 'T';
 			break;
 		default:
-			//printf("cannot unpack \n");
+			out ='X';
 			break;
-		}
 	}
-
-		
 	
 	return out;
 	
@@ -194,6 +190,7 @@ char *unpack(int encode){//takes the integer and unpacks that into an array of c
 
 
 
+/*
 FILE *decode(FILE *align){//takes encoded file and returns decoded string file
 	FILE *out;
 	
@@ -202,6 +199,7 @@ FILE *decode(FILE *align){//takes encoded file and returns decoded string file
 	
 	return out;
 }
+*/
 
 FILE *alignment(FILE *nuc1, FILE *nuc2){ //takes in files of encoded nucleotides and returns alignment of the two
 	//this is the actual algorithm func here
@@ -328,6 +326,8 @@ int main(int argc, char **argv)
 	FILE *test2 = fopen("Encoded2.jack","r");
 	
 	alignment(test1,test2);
+	
+	
 	
 	fclose(test1);
 	fclose(test2);
