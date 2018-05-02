@@ -75,11 +75,13 @@ FILE *prePrep(char *file)//This takes the file and creates new files and titles.
 */
 
 
-int pack(int i,int nuc1,int nuc2){//takes index i 1->4 and packs the nucleoditdes into one
+unsigned int pack(int i,unsigned int nuc1,unsigned int nuc2){//takes index i 1->14 and packs the nucleoditdes into one
 	//bit shift right nuc 2 over by the index, OR the nucs, return that.
-	i=i*2;
-	nuc2 = nuc2 >> i;
-	nuc1 = nuc1 ^ nuc2;
+
+	int j = (nuc2<<i);
+
+	nuc1 = nuc1 ^ j;
+
 	return nuc1;
 }
 
@@ -92,7 +94,7 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 	
 	//put file where test is, then comment this out. used only for testing
 	FILE *test1;
-	test1  = fopen("bigTest2", "r");
+	test1  = fopen("test", "r");
 	//getting size of files
 	fseek(test1, 0L, SEEK_END);
 	int size1 = ftell(test1);
@@ -119,7 +121,7 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 		 
 		int index =0;
 		int index2=0;
-		int outC;
+		unsigned int outC=0;
 		rewind(test1);
 		
 		while( index<=size1 )
@@ -132,50 +134,53 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 			{
 				
 				case 'A':
-					if(index2>1)
+					if(index2 > 1)
 					{
-						outC = pack(index2,outC, 0x00 );
+						outC = pack(index2,outC, 0 );
 					}
 					else
 					{
-						outC = 0x00;
+						outC = 0;
 					}
 					break;
 					
 					
-				case 'G':
+				case 'C':
 
-					if(index2>1)
+					if(index2 > 1)
 					{
-						outC = pack(index2,outC, 0x10 );
+						outC = pack(index2,outC, 1 );
 					}
 					else
 					{
-						outC = 0x10;
+						outC = 1;
 					}
 					break;
 		
 					
-				case 'C':
-					if(index2>1)
+				case 'G':
+					if(index2 > 1)
 					{
-						outC = pack(index2,outC, 0x20 );
+						outC = pack(index2,outC, 2 );
 					}
 					else
 					{
-						outC = 0x2;
+						outC = 2;
 					}
 					break;
 					
 				case 'T':
-					if(index2>1)
+					
+					if(index2 > 1)
 					{
-						outC = pack(index2,outC, 0x30 );
+						
+						outC = pack(index2,outC, 3 );
 					}
 					else
 					{
-						outC = 0x3;
-					}		
+						outC = 3;
+					}	
+					//printf("%d::\n",outC);	
 					break;		
 					
 				default :
@@ -184,17 +189,18 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 			
 			}
 
-			if(index2 == 16){
+			if(index2 == 30){
 				fprintf(out,"%d,",outC);
 				index2=0;
 				//printf("%d \n::",outC);
 			}
-			else if(index == size1 ){//still need to deal with the extra data. this is when the size is not 0 mod 16.
-				fprintf(out,"%d ",outC);
-				break;//done with encoding
-			}
+			//else if(index == size1 ){//still need to deal with the extra data. this is when the size is not 0 mod 16.
+		//		fprintf(out,"%d ",outC);
+		//		break;//done with encoding
+		//	}
 			else 
 			{
+
 				index2+=2;
 			}
 			

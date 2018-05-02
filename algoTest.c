@@ -84,8 +84,8 @@ int main(int argc, char **argv)
 {	
 	FILE *stream1;
 	FILE *stream2;
-	stream1 = fopen("medTest1","r");
-	stream2 = fopen("medTest2", "r");
+	stream1 = fopen("bigTest1","r");
+	stream2 = fopen("bigTest2", "r");
 	
 
 	//getting size of files
@@ -161,7 +161,7 @@ int main(int argc, char **argv)
    al = fopen("OptimalAlignmentTest","w");
    char out[2]; //out[0] will be the nucleotide from the fseek.
    char *out1 = "-";//this is equal to a space.
-   char *begin = "starts from 5' \n";
+   char *begin = "starts from 3' \n";
 	fwrite(begin,1,16,al);
 
 

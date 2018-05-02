@@ -155,15 +155,20 @@ void check(struct ret **score, FILE *stream1,FILE *stream2,int ipos, int jpos,in
 
 char *unpack(int encode){//takes the integer and unpacks that into an array of characters
 	char out[8];
-	int transfer;
 	
-	for(int i=0;i<8;i++)
+	unsigned int transfer;
+
+	for(int i=0;i<14;i+=2)
 	{
-		transfer = encode>>(i*2);
-		transfer = encode<<14;
+		transfer = encode >> i;
+		
+		transfer = transfer << 14;
+
+		printf("Encoded:%d Transfer:%d:: ",encode,transfer);
 		switch(transfer){
-		case 0:
+		case 0x00:
 			out[i] = 'A';
+
 			break;
 		case 0x10:
 			out[i] = 'G';
@@ -175,6 +180,7 @@ char *unpack(int encode){//takes the integer and unpacks that into an array of c
 			out[i] = 'T';
 			break;
 		default:
+			//printf("cannot unpack \n");
 			break;
 		}
 	}
@@ -185,6 +191,7 @@ char *unpack(int encode){//takes the integer and unpacks that into an array of c
 	
 	
 }
+
 
 
 FILE *decode(FILE *align){//takes encoded file and returns decoded string file
@@ -222,13 +229,16 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){ //takes in files of encoded nucleotides
 		align.bigArr[i]= calloc((align.bigArrSize2+1),sizeof(struct ret));
 
 	}
-	align.retFile = fopen("Score", "w");
+	//align.retFile = fopen("Score", "w");
 
 	//Rowmajor-> do rows first
 	int read1;//for storing in fgets
 	int read2;
 	int max=0;
 	int ipos,jpos;
+	
+	char *undone1;
+	char *undone2;
 	
 	for(int i=0;i<align.bigArrSize1-8;i+=8){
 		for(int n=0;n<align.bigArrSize2-8;n+=8){
@@ -243,9 +253,13 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){ //takes in files of encoded nucleotides
 			for(int j=1;j<8 ;j++){
 				fscanf(nuc1,"%d,",&read1);
 				//printf("read1:%d\n",read1);
+				//undone1 = unpack(read1);
+				
 				
 				for(int k=1; k<8 ;k++){
 					fscanf(nuc2,"%d,",&read2);
+					
+					
 					//printf("read2:%d\n",read2);
 					//look at the three surrounding matrix entries. pick lowest. or 0.
 					
@@ -294,7 +308,7 @@ FILE *alignment(FILE *nuc1, FILE *nuc2){ //takes in files of encoded nucleotides
 	}
 	free(align.bigArr);
 	
-	fclose(align.retFile);
+	//fclose(align.retFile);
 
 	return align.retFile;
 	
@@ -310,8 +324,8 @@ int main(int argc, char **argv)
 	
 	scanf('%c', input);
 	*/
-	FILE *test1 = fopen("Encoded1","r");
-	FILE *test2 = fopen("Encoded2","r");
+	FILE *test1 = fopen("Encoded1.jack","r");
+	FILE *test2 = fopen("Encoded2.jack","r");
 	
 	alignment(test1,test2);
 	
