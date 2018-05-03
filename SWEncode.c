@@ -89,12 +89,12 @@ FILE * input(FILE *file)//takes in the file reads it, encodes it. outputs a file
 {
 	
 	FILE *out; //output
-	out = fopen("Encoded2", "w");//create a file to put the encoding.
+	out = fopen("Encoded2.jack", "w");//create a file to put the encoding.
 	
 	
 	//put file where test is, then comment this out. used only for testing
 	FILE *test1;
-	test1  = fopen("test", "r");
+	test1  = fopen("medTest2", "r");
 	//getting size of files
 	fseek(test1, 0L, SEEK_END);
 	int size1 = ftell(test1);

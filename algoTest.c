@@ -149,7 +149,7 @@ int main(int argc, char **argv)
 		rewind(stream2);
     }
     
-   printf("Max Score:%d From1:%d From2:%d \n",max,ipos,jpos);
+   printf("Max Score:%d From i:%d From j:%d \n",max,ipos,jpos);
    
    int ipos2 = ipos; int jpos2 = jpos; 
    int check = max;
@@ -161,7 +161,7 @@ int main(int argc, char **argv)
    al = fopen("OptimalAlignmentTest","w");
    char out[2]; //out[0] will be the nucleotide from the fseek.
    char *out1 = "-";//this is equal to a space.
-   char *begin = "starts from 3' \n";
+   char *begin = "starts from 5' \n";
 	fwrite(begin,1,16,al);
 
 
