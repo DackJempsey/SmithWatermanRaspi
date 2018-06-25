@@ -1,3 +1,3 @@
 language: C
-rvm:
+gcc:
  - 4.2.1
