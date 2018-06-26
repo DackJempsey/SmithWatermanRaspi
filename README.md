@@ -1,5 +1,5 @@
 ![Packagist](https://img.shields.io/badge/C-4.2.1-brightgreen.svg)
-![Packagist](https://travis-ci.com/DackJempsey/SmithWatermanRaspi.svg?branch=master)
+![Packagist](#https://api.travis-ci.com/repos/DackJempsey/SmithWatermanRaspi/cc.xml?branch=master)
 # SmithWatermanRaspi
 This is the repo for my project(Smith Waterman on a Raspberry Pi) in my lab for Bioinformatics and Genomics.
 
