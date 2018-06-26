@@ -1,3 +1,5 @@
+![Packagist]https://img.shields.io/badge/C-4.2.1-brightgreen.svg
+
 # SmithWatermanRaspi
 This is the repo for my project(Smith Waterman on a Raspberry Pi) in my lab for Bioinformatics and Genomics.
 
