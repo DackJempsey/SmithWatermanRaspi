@@ -1,4 +1,4 @@
 language: C
 gcc:
- - 4.2.1
+ - 9.1.0
 script: gcc src/SWAlgo.c 
