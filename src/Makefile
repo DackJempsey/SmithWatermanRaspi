@@ -8,7 +8,7 @@ C = gcc
 FLAGS = -std=c11
 CVERSION 	= ${C} -dumpversion
 
-RUN:	SWAlgo.o SWEncode.c Complete.o
+RUN:	SWAlgo.o SWEncode.o Complete.o
 
 
 SWAlgo.o:
@@ -23,7 +23,7 @@ Complete.o:
 	@printf "\n========COMPILATION COMPLETE=============\n"
 	
 clean: 
-@rm -f *.o SWAlgo.exe SWEncode.exe 
+	@rm -f *.o SWAlgo.exe SWEncode.exe 
 
 
 #notes
