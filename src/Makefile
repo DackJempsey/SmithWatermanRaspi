@@ -8,12 +8,19 @@ C++  = g++
 FLAGS = -std=c++11
 C++VERSION 	= ${C++} -dumpversion
 
-RUN:	 Complete.o
+RUN:	SWAlgo.o SWEncode.c Complete.o
 
 
+SWAlgo.o:
+	@printf "\n============Compiling SWAlgo============\n"
+	
+
+SWEncode.o:
+	@printf "\n============Compiling SWEncode==========\n"
+	
 	
 Complete.o:
 	@printf "\n========COMPILATION COMPLETE=============\n"
 	
 clean: 
-@rm -f *.o Deduplify.exe jsonBlob.exe 
+@rm -f *.o SWAlgo.exe SWEncode.exe 
