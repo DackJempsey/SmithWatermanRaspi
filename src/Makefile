@@ -24,3 +24,7 @@ Complete.o:
 	
 clean: 
 @rm -f *.o SWAlgo.exe SWEncode.exe 
+
+
+#notes
+#gcc -std=c11 -W src/SWAlgo.c 
