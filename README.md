@@ -8,4 +8,5 @@ This is the repo for my project(Smith Waterman on a Raspberry Pi) in my lab for 
 I will try to create a Smith Waterman Machine on a raspberry pi 3. If succesful I will try to create a small cluster of 
 raspberry pi's to do the same thing but faster.
 
-In this folder we have the Notes file which has my daily notes. 
+# Programs
+There are two main programs to this project. An Encoding Scheme and the Algorithm. They are found in the src file. 
