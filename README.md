@@ -9,4 +9,4 @@ I will try to create a Smith Waterman Machine on a raspberry pi 3. If succesful 
 raspberry pi's to do the same thing but faster.
 
 # Programs
-There are two main programs to this project. An Encoding Scheme and the Algorithm. They are found in the src file. 
+There are two main programs to this project. An Encoding Scheme(SWEncode) and the Algorithm(SWAlgo). They are found in the src file. In the Test Files directory are the varous size DNA files which I used to test the algorithm. In the outputs directory there are the sample outputs from the SWAEncoding algorithm. 
